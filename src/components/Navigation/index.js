@@ -7,22 +7,36 @@ import { selectToken } from "../../store/user/selectors";
 import NavbarItem from "./NavbarItem";
 import LoggedIn from "./LoggedIn";
 import LoggedOut from "./LoggedOut";
+import { selectUser } from "../../store/user/selectors";
 
 export default function Navigation() {
   const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
 
-  const loginLogoutControls = token ? <LoggedIn /> : <LoggedOut />;
+  const loginLogoutControls = token ? <LoggedIn /> : null;
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand as={NavLink} to="/">
-        YOUR PROJECT NAME
+      <Navbar.Brand
+      // as={NavLink} to="/"
+      >
+        My Nutri Journal
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav style={{ width: "100%" }} fill>
-          <NavbarItem path="/" linkText="Home" />
-          <NavbarItem path="/other" linkText="Other" />
+          {!token ? null : user.isNutritionist ? (
+            <NavbarItem path="/mypatients" linkText="Home" />
+          ) : (
+            <NavbarItem path="/dailyProgress" linkText="Home" />
+          )}
+
+          {!token ? null : user.isNutritionist ? (
+            <NavbarItem path="/signup" linkText="New Patient" />
+          ) : (
+            <NavbarItem path={`./plan/${user.id}`} linkText="My Plan" />
+          )}
+
           {loginLogoutControls}
         </Nav>
       </Navbar.Collapse>
