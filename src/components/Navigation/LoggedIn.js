@@ -11,11 +11,11 @@ export default function LoggedIn() {
   const user = useSelector(selectUser);
   const history = useHistory();
 
-  useEffect(() => {
-    if (!user) {
-      history.push("/fun");
-    }
-  }, [history]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     history.push("/fun");
+  //   }
+  // }, [history]);
 
   return (
     <>
