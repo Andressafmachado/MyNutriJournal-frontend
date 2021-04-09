@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "./store/appState/selectors";
 import { getUserWithStoredToken } from "./store/user/actions";
 import { Jumbotron } from "react-bootstrap";
+import loginDoctor from "./pages/loginDoctor";
+import signupDoctor from "./pages/signupDoctor";
 
 const Home = () => (
   <Jumbotron>
@@ -39,9 +41,9 @@ function App() {
       {isLoading ? <Loading /> : null}
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route path="/other" component={Other} />
+        <Route path="/signupdoctor" component={signupDoctor} />
         <Route path="/signup" component={SignUp} />
-        {/* <Route path="/login" component={Login} /> */}
+        <Route path="/logindoctor" component={loginDoctor} />
       </Switch>
     </div>
   );

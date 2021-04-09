@@ -2,48 +2,54 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { login } from "../../store/user/actions";
-import { selectToken } from "../../store/user/selectors";
+import { signUpDoctor } from "../store/user/actions";
+import { selectToken, selectUser } from "../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
-import { selectUser } from "../../store/user/selectors";
 
-export default function SignUp() {
+export default function SignupDoctor() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
-  const user = useSelector(selectUser);
   const history = useHistory();
+  const user = useSelector(selectUser);
 
   function submitForm(event) {
-    console.log("hi");
     event.preventDefault();
 
-    dispatch(login(email, password, history));
+    dispatch(signUpDoctor(name, email, password, history));
 
     setEmail("");
     setPassword("");
+    setName("");
   }
 
   return (
     <Container>
       <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
-        <h1 className="mt-5 mb-5">Welcome to My Nutri Journal</h1>
-        <h3>
-          This app is going yo help you track your diet and tasks to get a
-          healthier life and active your goals!
-        </h3>
-        <br />
-        <h5>Login</h5>
+        <div>
+          <h1> Sign up</h1>
+        </div>
+
+        <Form.Group controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            type="text"
+            required
+          />
+        </Form.Group>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             type="email"
-            placeholder="Enter email"
             required
           />
         </Form.Group>
@@ -54,31 +60,19 @@ export default function SignUp() {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             type="password"
-            placeholder="Password"
             required
           />
         </Form.Group>
+
         <Form.Group className="mt-5">
           <Button variant="primary" type="submit" onClick={submitForm}>
-            Log in
+            Sign up
           </Button>
         </Form.Group>
-        <br />
-
-        <h5>Don't you have a nutritionist?</h5>
-        <h3>
-          You can also do it by yourself:
-          <Link to="/signup" style={{ textAlign: "center" }}>
-            {" "}
-            sign up here
-          </Link>{" "}
-        </h3>
-        <br />
-        <h3>
-          Are you a nutritionist?
-          <Link to="/logindoctor"> login</Link> ou
-          <Link to="/signupdoctor"> sign up here</Link>{" "}
-        </h3>
+        <p>
+          Already have an account?{" "}
+          <Link to="/logindoctor">Click here to log in</Link>
+        </p>
       </Form>
     </Container>
   );
