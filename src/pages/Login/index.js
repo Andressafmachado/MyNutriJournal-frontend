@@ -17,25 +17,11 @@ export default function SignUp() {
   const user = useSelector(selectUser);
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     history.push("/mypatients");
-  //   } else if (user) {
-  //     history.push("/dailyProgress");
-  //   }
-  // }, [token, history]);
-
-  // useEffect(() => {
-  //   if (token !== null) {
-  //     history.push("/mypatients");
-  //   }
-  // }, [token, history]);
-
   function submitForm(event) {
     console.log("hi");
     event.preventDefault();
 
-    dispatch(login(email, password));
+    dispatch(login(email, password, history));
 
     setEmail("");
     setPassword("");

@@ -26,6 +26,7 @@ const tokenStillValid = (userWithoutToken) => ({
 
 export const logOut = () => ({ type: LOG_OUT });
 
+//user sign up
 export const signUp = (
   name,
   email,
@@ -34,9 +35,9 @@ export const signUp = (
   height,
   weight,
   gender,
-  exerciseDaily
+  exerciseDaily,
+  history
 ) => {
-  console.log(age);
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
@@ -54,6 +55,7 @@ export const signUp = (
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", true, "account created"));
       dispatch(appDoneLoading());
+      history.push("/dailyprogress");
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -62,12 +64,14 @@ export const signUp = (
         console.log(error.message);
         dispatch(setMessage("danger", true, error.message));
       }
+
       dispatch(appDoneLoading());
     }
   };
 };
 
-export const signUpDoctor = (name, email, password) => {
+//doctor sign up
+export const signUpDoctor = (name, email, password, history) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
@@ -80,6 +84,7 @@ export const signUpDoctor = (name, email, password) => {
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", true, "account created"));
       dispatch(appDoneLoading());
+      history.push("/mypatients");
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -93,7 +98,8 @@ export const signUpDoctor = (name, email, password) => {
   };
 };
 
-export const login = (email, password) => {
+//login user
+export const login = (email, password, history) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
@@ -105,6 +111,7 @@ export const login = (email, password) => {
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
       dispatch(appDoneLoading());
+      history.push("/dailyprogress"); // send them to homepage
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -118,7 +125,8 @@ export const login = (email, password) => {
   };
 };
 
-export const loginDoctor = (email, password) => {
+//login doctor
+export const loginDoctor = (email, password, history) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
@@ -130,6 +138,7 @@ export const loginDoctor = (email, password) => {
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
       dispatch(appDoneLoading());
+      history.push("/mypatients"); // send them to homepage
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

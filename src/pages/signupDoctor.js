@@ -18,16 +18,10 @@ export default function SignupDoctor() {
   const history = useHistory();
   const user = useSelector(selectUser);
 
-  // useEffect(() => {
-  //   if (token !== null) {
-  //     history.push("/");
-  //   }
-  // }, [token, history]);
-
   function submitForm(event) {
     event.preventDefault();
 
-    dispatch(signUpDoctor(name, email, password));
+    dispatch(signUpDoctor(name, email, password, history));
 
     setEmail("");
     setPassword("");

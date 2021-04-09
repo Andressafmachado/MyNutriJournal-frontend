@@ -13,12 +13,13 @@ export default function LoginDoctor() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const history = useHistory();
 
   function submitForm(event) {
     console.log("hi");
     event.preventDefault();
 
-    dispatch(loginDoctor(email, password));
+    dispatch(loginDoctor(email, password, history));
 
     setEmail("");
     setPassword("");
