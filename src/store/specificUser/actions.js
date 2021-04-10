@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { selectUser } from "../../store/user/selectors";
 
 // import myAxios from "../axios";
@@ -24,7 +23,7 @@ export function fetchSpecificUser(id) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
+    // console.log(response.data);
     dispatch(specificUser(response.data));
   };
 }

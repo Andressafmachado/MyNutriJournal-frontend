@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { selectUser } from "../user/selectors";
 
 // import myAxios from "../axios";

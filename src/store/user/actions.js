@@ -7,7 +7,6 @@ import {
   showMessageWithTimeout,
   setMessage,
 } from "../appState/actions";
-import { selectUser } from "../user/selectors";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
@@ -174,7 +173,7 @@ export const getUserWithStoredToken = () => {
 
       // token is still valid
       dispatch(tokenStillValid(response.data));
-      console.log("ultima", response.data);
+      // console.log("token still valid", response.data);
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {

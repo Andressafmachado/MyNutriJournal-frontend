@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { signUpDoctor } from "../store/user/actions";
-import { selectToken, selectUser } from "../store/user/selectors";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
 
@@ -14,9 +14,8 @@ export default function SignupDoctor() {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
+
   const history = useHistory();
-  const user = useSelector(selectUser);
 
   function submitForm(event) {
     event.preventDefault();

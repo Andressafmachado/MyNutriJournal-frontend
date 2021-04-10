@@ -63,17 +63,17 @@ export default function PlanPage() {
     if (argv.length !== 7) {
       console.log(`
         You gave ${argv.length - 2} arguments(s) to the program
-    
+
         Please provide 5 arguments for
-        
-        weight (kg), 
-        height (m), 
-        age (years), 
+
+        weight (kg),
+        height (m),
+        age (years),
         wether you exercise daily (yes or no)
         and your gender (m or f)
-        
+
         Example:
-    
+
         $ node index.js 82 1.79 32 yes m
       `);
 
@@ -85,11 +85,11 @@ export default function PlanPage() {
     if (isNaN(weight) || isNaN(height) || isNaN(ageOfUser)) {
       console.log(`
         Please make sure weight, height and age are numbers:
-  
+
         weight (kg) example: 82 | your input: ${argv[2]}
         height (m) example 1.79 | your input: ${argv[3]}
-        age (years) example 32  | your input: ${argv[4]} 
-  
+        age (years) example 32  | your input: ${argv[4]}
+
         $ node index.js 82 1.79 32 yes m
       `);
 

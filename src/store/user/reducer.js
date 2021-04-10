@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
       return { ...initialState, token: null };
 
     case TOKEN_STILL_VALID:
-      console.log(`token still`, action.payload);
+      // console.log(`token still valid at reducer`, action.payload);
       return { ...state, ...action.payload };
 
     default:
