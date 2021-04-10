@@ -28,7 +28,7 @@ export default function Navigation() {
           {!token ? null : user.isNutritionist ? (
             <NavbarItem path="/mypatients" linkText="Home" />
           ) : (
-            <NavbarItem path="/dailyProgress" linkText="Home" />
+            <NavbarItem path="/dailyprogress" linkText="Home" />
           )}
 
           {!token ? null : user.isNutritionist ? (
