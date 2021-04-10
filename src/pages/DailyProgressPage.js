@@ -11,9 +11,8 @@ export default function DailyProgressPage() {
   const user = useSelector(selectUser);
   const userId = user.id;
   const [sentence, setSentence] = useState("");
-
+  const [item, setItem] = useState("");
   const specificUser = useSelector(selectSpecificUser);
-  console.log(specificUser);
 
   useEffect(() => {
     dispatch(fetchSpecificUser(userId));
@@ -26,6 +25,26 @@ export default function DailyProgressPage() {
       const number = Math.round(Math.random() * 1643);
       const data = response.data[number];
       setSentence(data);
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await Axios.get(
+        `https://edamam-food-and-grocery-database.p.rapidapi.com/parser`,
+        {
+          params: { ingr: "banana" },
+          headers: {
+            "x-rapidapi-key":
+              "c4c10462bemshab94b761bbb6e7ap159766jsnb04e024926aa",
+            "x-rapidapi-host":
+              "edamam-food-and-grocery-database.p.rapidapi.com",
+          },
+        }
+      );
+      setItem(response.data.hints);
+      console.log("novo useeffect", response);
     }
     fetchData();
   }, []);
@@ -52,12 +71,10 @@ export default function DailyProgressPage() {
           ) : (
             specificUser.tasks.map((task) => {
               return (
-                <div>
-                  <lu>
-                    <li style={{ border: "solid 1px", width: "200px" }}>
-                      {task.name}
-                    </li>
-                  </lu>
+                <div key={task.id}>
+                  <li style={{ border: "solid 1px", width: "200px" }}>
+                    {task.name}
+                  </li>
                 </div>
               );
             })
@@ -65,6 +82,34 @@ export default function DailyProgressPage() {
         </div>
         <br />
         <br />
+        <h1>new item</h1>
+        <input />
+        <button>search</button>
+        <div>
+          {" "}
+          {!item
+            ? null
+            : item.map((item, index) => {
+                return (
+                  <div>
+                    <div
+                      style={{
+                        border: "solid 1px",
+                        padding: 5,
+                        width: 250,
+                        height: 100,
+                      }}
+                      key={index}
+                    >
+                      <img src={item.food.image} style={{ width: 50 }} />
+                      {item.food.label}, kcal:{" "}
+                      {Math.round(item.food.nutrients.ENERC_KCAL)} <br />
+                    </div>
+                    <button>add</button>
+                  </div>
+                );
+              })}
+        </div>
         <br />
       </div>
     </Container>
