@@ -14,6 +14,7 @@ import { getUserWithStoredToken } from "./store/user/actions";
 import { Jumbotron } from "react-bootstrap";
 import loginDoctor from "./pages/loginDoctor";
 import signupDoctor from "./pages/signupDoctor";
+import MyPatients from "./pages/MyPatients";
 
 const Home = () => (
   <Jumbotron>
@@ -44,6 +45,7 @@ function App() {
         <Route path="/signupdoctor" component={signupDoctor} />
         <Route path="/signup" component={SignUp} />
         <Route path="/logindoctor" component={loginDoctor} />
+        <Route path="/mypatients" component={MyPatients} />
       </Switch>
     </div>
   );

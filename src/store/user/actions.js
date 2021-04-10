@@ -136,6 +136,7 @@ export const loginDoctor = (email, password, history) => {
       });
 
       dispatch(loginSuccess(response.data));
+      console.log("data pque", response.data);
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
       dispatch(appDoneLoading());
       history.push("/mypatients"); // send them to homepage
@@ -170,6 +171,7 @@ export const getUserWithStoredToken = () => {
 
       // token is still valid
       dispatch(tokenStillValid(response.data));
+      console.log("ultima", response.data);
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
