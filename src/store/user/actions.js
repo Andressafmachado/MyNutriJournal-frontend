@@ -7,6 +7,7 @@ import {
   showMessageWithTimeout,
   setMessage,
 } from "../appState/actions";
+import { selectUser } from "../user/selectors";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
@@ -55,7 +56,9 @@ export const signUp = (
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", true, "account created"));
       dispatch(appDoneLoading());
-      history.push("/dailyprogress");
+
+      //SOLVE THIS PROBLEM
+      history.push(`/plan`);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

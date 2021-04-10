@@ -22,6 +22,7 @@ export default function SignUp() {
   const token = useSelector(selectToken);
   const history = useHistory();
   const user = useSelector(selectUser);
+  const userId = user.id;
 
   function submitForm(event) {
     event.preventDefault();
@@ -36,7 +37,8 @@ export default function SignUp() {
         weight,
         gender,
         exerciseDaily,
-        history
+        history,
+        userId
       )
     );
 
@@ -53,17 +55,10 @@ export default function SignUp() {
   return (
     <Container>
       <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
-        {user.isNutritionist ? (
-          <div>
-            <h1> Add a new patient</h1>
-            <h5>Insert the data, we do the math for you!</h5>
-          </div>
-        ) : (
-          <div>
-            <h1 className="mt-5 mb-5">Signup and create a Plan!</h1>
-            <h5>Add your personal information, we do the math for you!</h5>
-          </div>
-        )}
+        <div>
+          <h1 className="mt-5 mb-5">Signup and create a Plan!</h1>
+          <h5>Add your personal information, we do the math for you!</h5>
+        </div>
 
         <Form.Group controlId="formBasicName">
           <Form.Label>Name</Form.Label>
@@ -103,6 +98,7 @@ export default function SignUp() {
             value={age}
             onChange={(event) => setAge(event.target.value)}
             type="integer"
+            required
           />
         </Form.Group>
         <Form.Group>
@@ -111,6 +107,7 @@ export default function SignUp() {
             value={height}
             onChange={(event) => setHeight(event.target.value)}
             type="text"
+            required
           />
         </Form.Group>
         <Form.Group>
@@ -119,6 +116,7 @@ export default function SignUp() {
             value={weight}
             onChange={(event) => setWeight(event.target.value)}
             type="text"
+            required
           />
         </Form.Group>
         <Form.Group>
@@ -132,6 +130,7 @@ export default function SignUp() {
             value={gender}
             onChange={(event) => setGender(event.target.value)}
             type="text"
+            required
           />
         </Form.Group>
         <Form.Group>
@@ -140,6 +139,7 @@ export default function SignUp() {
             value={exerciseDaily}
             onChange={(event) => setExerciseDaily(event.target.value)}
             type="text"
+            required
           />
         </Form.Group>
 
