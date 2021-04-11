@@ -75,17 +75,23 @@ export default function DailyProgressPage() {
     setCalories("");
   }
 
+  let initialValue = 0;
+  let sum = food.reduce(
+    (accumulator, currentValue) => accumulator + Number(currentValue.calories),
+    initialValue
+  );
+
+  console.log("soma", sum); // logs 6
+
   return (
     <Container>
       <div>
         <h1>Daily Progress</h1>
-
         <br />
         <h2>Welcome {user.name}</h2>
         <br />
         <br />
         <br />
-
         <h3> {sentence.text}</h3>
         <h5> {sentence.author}</h5>
         <br />
@@ -169,6 +175,7 @@ export default function DailyProgressPage() {
                 );
               })}
         </div>
+        total calories {sum}
       </div>
     </Container>
   );
