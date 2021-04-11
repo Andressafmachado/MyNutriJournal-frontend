@@ -11,8 +11,8 @@ export default function foodReducer(state = initialState, action) {
         allFood: action.payload,
       };
 
-    case "reservations/addNewReservation":
-      console.log(`vc esta me vendo?`, action.payload);
+    case "foods/addNewFood":
+      console.log(`at food/reducer`, action.payload);
       return { ...state, ...action.payload };
 
     default:

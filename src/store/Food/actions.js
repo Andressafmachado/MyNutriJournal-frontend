@@ -43,7 +43,7 @@ export const addFood = (item, calories, userId, date) => {
         userId,
       });
       console.log("add food", response.data);
-
+      dispatch(newFood(response.data));
       dispatch(showMessageWithTimeout("success", true, "new food added"));
       dispatch(fetchFoods(date, userId));
     } catch (error) {
@@ -59,3 +59,10 @@ export const addFood = (item, calories, userId, date) => {
     }
   };
 };
+
+function newFood(data) {
+  return {
+    type: "foods/addNewFood",
+    payload: data,
+  };
+}

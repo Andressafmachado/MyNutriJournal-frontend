@@ -11,6 +11,11 @@ import { selectFood } from "../store/Food/selectors";
 import { useHistory } from "react-router";
 import { selectTasks } from "../store/Task/selectors";
 import { fetchTasks } from "../store/Task/actions";
+import {
+  addCompletedTask,
+  fetchCompletedTasks,
+} from "../store/completedTasks/actions";
+import { selectCompletedTasks } from "../store/completedTasks/selectors";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -28,12 +33,30 @@ export default function DailyProgressPage() {
   const history = useHistory();
   const token = useSelector(selectToken);
   const allTasks = useSelector(selectTasks);
+  const completedTasks = useSelector(selectCompletedTasks);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     if (token === null) {
       history.push("/");
     }
   }, [token, history]);
+
+  useEffect(() => {
+    dispatch(fetchTasks(userId));
+  }, [dispatch, userId]);
+
+  useEffect(() => {
+    dispatch(fetchCompletedTasks(userId));
+  }, [dispatch, userId]);
+
+  useEffect(() => {
+    dispatch(fetchSpecificUser(userId));
+  }, [dispatch, userId]);
+
+  useEffect(() => {
+    dispatch(fetchFoods(today, userId));
+  }, [dispatch, today, userId]);
 
   const search = async () => {
     // console.log("TODO search movies for:", searchText);
@@ -61,18 +84,6 @@ export default function DailyProgressPage() {
     setSearchState({ status: "done", data: item });
     setItem(item);
   };
-
-  useEffect(() => {
-    dispatch(fetchTasks(userId));
-  }, [dispatch, userId]);
-
-  useEffect(() => {
-    dispatch(fetchSpecificUser(userId));
-  }, [dispatch, userId]);
-
-  useEffect(() => {
-    dispatch(fetchFoods(today, userId));
-  }, [dispatch, today, userId]);
 
   //motivational sentences
   useEffect(() => {
@@ -107,6 +118,26 @@ export default function DailyProgressPage() {
     initialValue
   );
 
+  const isCompleted = (name) => {
+    const taskCompleted = completedTasks.find((task) => task.name === name);
+    return taskCompleted ? true : false;
+  };
+  // console.log("namw fora", name);
+  // function submitFormTask(event) {
+  //   event.preventDefault();
+  //   dispatch(addCompletedTask(name, specificUser.id));
+  //   console.log("name", name);
+  // }
+
+  // function novafunction(name) {
+  //   setName(name);
+  //   function submitFormTask(event) {
+  //     event.preventDefault();
+  //     dispatch(addCompletedTask(name, specificUser.id));
+  //     console.log("name", name);
+  //   }
+  // }
+
   return (
     <div>
       <h1>Daily Progress</h1>
@@ -115,8 +146,11 @@ export default function DailyProgressPage() {
       <br />
       <br />
       <br />
-      <h3> {sentence.text}</h3>
-      <h5> {sentence.author}</h5>
+      <div style={{ fontFamily: "Linguini", backgroundColor: "#70AFC6" }}>
+        <h3> {sentence.text}</h3>
+        <h5> {sentence.author}</h5>
+      </div>
+
       <br />
       <br />
       <div>
@@ -125,14 +159,47 @@ export default function DailyProgressPage() {
           <p>You don't have tasks for today!</p>
         ) : (
           allTasks.map((task) => {
-            return <div key={task.id}>{task.name}</div>;
+            return (
+              <div>
+                <div
+                  value={name}
+                  style={{
+                    backgroundColor: isCompleted(task.name)
+                      ? "green  "
+                      : "yellow",
+                    width: 300,
+                    padding: 10,
+                    border: "solid gray 1px",
+                  }}
+                  key={task.id}
+                >
+                  {task.name}{" "}
+                  {isCompleted(task.name) ? null : (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        dispatch(addCompletedTask(task.name, userId));
+                        console.log(`this is the table:`, task.name);
+                      }}
+                      type="button"
+                      class="btn btn-primary btn-sm"
+                      variant="primary"
+                      type="submit"
+                      value={name}
+                    >
+                      Done?
+                    </button>
+                  )}
+                </div>{" "}
+              </div>
+            );
           })
         )}
       </div>
       <br />
       <br />
       <h1>new item</h1>
-      <p>most of food 100g</p>
+      <p>100 ml/100 gram</p>
       <input
         value={searchText}
         onChange={(e) => set_searchText(e.target.value)}
