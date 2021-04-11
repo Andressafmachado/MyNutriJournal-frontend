@@ -16,6 +16,7 @@ import loginDoctor from "./pages/loginDoctor";
 import signupDoctor from "./pages/signupDoctor";
 import MyPatients from "./pages/MyPatients";
 import PlanPage from "./pages/PlanPage";
+import DailyProgressPage from "./pages/DailyProgressPage";
 
 const Home = () => (
   <Jumbotron>
@@ -48,6 +49,7 @@ function App() {
         <Route path="/logindoctor" component={loginDoctor} />
         <Route path="/mypatients" component={MyPatients} />
         <Route path="/plan/:id" component={PlanPage} />
+        <Route path="/dailyprogress" component={DailyProgressPage} />
       </Switch>
     </div>
   );

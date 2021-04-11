@@ -1,12 +1,12 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../../store/user/selectors";
 import NavbarItem from "./NavbarItem";
 import LoggedIn from "./LoggedIn";
-import LoggedOut from "./LoggedOut";
+// import LoggedOut from "./LoggedOut";
 import { selectUser } from "../../store/user/selectors";
 
 export default function Navigation() {
@@ -28,7 +28,7 @@ export default function Navigation() {
           {!token ? null : user.isNutritionist ? (
             <NavbarItem path="/mypatients" linkText="Home" />
           ) : (
-            <NavbarItem path="/dailyProgress" linkText="Home" />
+            <NavbarItem path="/dailyprogress" linkText="Home" />
           )}
 
           {!token ? null : user.isNutritionist ? (
