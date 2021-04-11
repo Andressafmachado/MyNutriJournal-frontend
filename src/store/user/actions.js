@@ -57,7 +57,7 @@ export const signUp = (
       dispatch(appDoneLoading());
 
       //SOLVE THIS PROBLEM
-      history.push(`/plan`);
+      history.push(`/dailyprogress`);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

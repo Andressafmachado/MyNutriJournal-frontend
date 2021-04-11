@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useSelector, useDispatch } from "react-redux";
+import { addFood } from "../store/AddFood/actions";
 import { fetchSpecificUser } from "../store/specificUser/actions";
 import { selectSpecificUser } from "../store/specificUser/selectors";
 import { selectUser } from "../store/user/selectors";
@@ -12,6 +13,7 @@ export default function DailyProgressPage() {
   const userId = user.id;
   const [sentence, setSentence] = useState("");
   const [item, setItem] = useState("");
+  const [calories, setCalories] = useState("");
   const specificUser = useSelector(selectSpecificUser);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function DailyProgressPage() {
       const response = await Axios.get(
         `https://edamam-food-and-grocery-database.p.rapidapi.com/parser`,
         {
-          params: { ingr: "banana" },
+          params: { ingr: "bread" },
           headers: {
             "x-rapidapi-key":
               "c4c10462bemshab94b761bbb6e7ap159766jsnb04e024926aa",
@@ -48,6 +50,17 @@ export default function DailyProgressPage() {
     }
     fetchData();
   }, []);
+
+  function submitForm(event) {
+    event.preventDefault();
+
+    dispatch(
+      addFood(item[0].food.label, item[0].food.nutrients.ENERC_KCAL, userId)
+    );
+
+    setItem("");
+    setCalories("");
+  }
 
   return (
     <Container>
@@ -84,10 +97,12 @@ export default function DailyProgressPage() {
         <br />
         <h1>new item</h1>
         <input />
-        <button>search</button>
+        <button type="button" class="btn btn-primary btn-sm">
+          search
+        </button>
         <div>
           {" "}
-          {!item
+          {/* {!item
             ? null
             : item.map((item, index) => {
                 return (
@@ -108,7 +123,25 @@ export default function DailyProgressPage() {
                     <button>add</button>
                   </div>
                 );
-              })}
+              })} */}
+          {!item ? null : (
+            <div>
+              <img src={item[0].food.image} style={{ width: 150 }} />
+              <br />
+              {item[0].food.label}, kcal:
+              {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
+              <br />
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                variant="primary"
+                type="submit"
+                onClick={submitForm}
+              >
+                add
+              </button>
+            </div>
+          )}
         </div>
         <br />
       </div>
