@@ -20,6 +20,37 @@ export default function DailyProgressPage() {
   const date = new Date();
   const today = date.toLocaleDateString().split("/").reverse().join("-");
   const food = useSelector(selectFood);
+  const [searchText, set_searchText] = useState("");
+  const [searchState, setSearchState] = useState({ status: "idle" });
+
+  const search = async () => {
+    // console.log("TODO search movies for:", searchText);
+    // collect the searchterm in our input field
+    setSearchState({ status: "loading" });
+    // This is to encode characters that have special meaning in urls
+    // const encodedSearch = encodeURIComponent(searchText);
+
+    const response = await Axios.get(
+      `https://edamam-food-and-grocery-database.p.rapidapi.com/parser`,
+      {
+        params: { ingr: searchText },
+
+        headers: {
+          "x-rapidapi-key":
+            "c4c10462bemshab94b761bbb6e7ap159766jsnb04e024926aa",
+          "x-rapidapi-host": "edamam-food-and-grocery-database.p.rapidapi.com",
+        },
+      }
+    );
+
+    const item = response.data.hints;
+    // After fetching the data we need to set it to some state so we can use it later
+    // to render
+    setSearchState({ status: "done", data: item });
+    setItem(item);
+  };
+
+  // console.log("searchState", searchState);
 
   useEffect(() => {
     dispatch(fetchSpecificUser(userId));
@@ -36,25 +67,6 @@ export default function DailyProgressPage() {
       const number = Math.round(Math.random() * 1643);
       const data = response.data[number];
       setSentence(data);
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await Axios.get(
-        `https://edamam-food-and-grocery-database.p.rapidapi.com/parser`,
-        {
-          params: { ingr: "banana bread" },
-          headers: {
-            "x-rapidapi-key":
-              "c4c10462bemshab94b761bbb6e7ap159766jsnb04e024926aa",
-            "x-rapidapi-host":
-              "edamam-food-and-grocery-database.p.rapidapi.com",
-          },
-        }
-      );
-      setItem(response.data.hints);
     }
     fetchData();
   }, []);
@@ -81,102 +93,83 @@ export default function DailyProgressPage() {
     initialValue
   );
 
-  console.log("soma", sum); // logs 6
-
   return (
-    <Container>
+    <div>
+      <h1>Daily Progress</h1>
+      <br />
+      <h2>Welcome {user.name}</h2>
+      <br />
+      <br />
+      <br />
+      <h3> {sentence.text}</h3>
+      <h5> {sentence.author}</h5>
+      <br />
+      <br />
       <div>
-        <h1>Daily Progress</h1>
-        <br />
-        <h2>Welcome {user.name}</h2>
-        <br />
-        <br />
-        <br />
-        <h3> {sentence.text}</h3>
-        <h5> {sentence.author}</h5>
-        <br />
-        <br />
-        <div>
-          <h4>Your tasks for today:</h4>
-          {!specificUser.tasks ? (
-            <p>You don't have tasks for today!</p>
-          ) : (
-            specificUser.tasks.map((task) => {
+        <h4>Your tasks for today:</h4>
+        {!specificUser.tasks ? (
+          <p>You don't have tasks for today!</p>
+        ) : (
+          specificUser.tasks.map((task) => {
+            return (
+              <div key={task.id}>
+                <li style={{ border: "solid 1px", width: "200px" }}>
+                  {task.name}
+                </li>
+              </div>
+            );
+          })
+        )}
+      </div>
+      <br />
+      <br />
+      <h1>new item</h1>
+      <p>most of food 100g</p>
+      <input
+        value={searchText}
+        onChange={(e) => set_searchText(e.target.value)}
+      />
+      <button onClick={search} type="button" class="btn btn-primary btn-sm">
+        search
+      </button>
+
+      {searchState.status === "idle" && <div>Type to search</div>}
+      {searchState.status === "loading" && <div>Loading...</div>}
+
+      <div>
+        {!item[0] ? null : (
+          <div>
+            <img src={item[0].food.image} style={{ width: 150 }} />
+            <br />
+            {item[0].food.label}, kcal:
+            {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
+            <br />
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              variant="primary"
+              type="submit"
+              onClick={submitForm}
+            >
+              add
+            </button>
+          </div>
+        )}
+      </div>
+      <br />
+      <div>
+        <h3>Today food</h3>
+        {!food
+          ? null
+          : food.map((food, index) => {
               return (
-                <div key={task.id}>
-                  <li style={{ border: "solid 1px", width: "200px" }}>
-                    {task.name}
-                  </li>
+                <div key={index}>
+                  {food.item}, kcal: {food.calories}
                 </div>
               );
-            })
-          )}
-        </div>
-        <br />
-        <br />
-        <h1>new item</h1>
-        <input />
-        <button type="button" class="btn btn-primary btn-sm">
-          search
-        </button>
-        <div>
-          {" "}
-          {/* {!item
-            ? null
-            : item.map((item, index) => {
-                return (
-                  <div>
-                    <div
-                      style={{
-                        border: "solid 1px",
-                        padding: 5,
-                        width: 250,
-                        height: 100,
-                      }}
-                      key={index}
-                    >
-                      <img src={item.food.image} style={{ width: 50 }} />
-                      {item.food.label}, kcal:{" "}
-                      {Math.round(item.food.nutrients.ENERC_KCAL)} <br />
-                    </div>
-                    <button>add</button>
-                  </div>
-                );
-              })} */}
-          {!item ? null : (
-            <div>
-              <img src={item[0].food.image} style={{ width: 150 }} />
-              <br />
-              {item[0].food.label}, kcal:
-              {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
-              <br />
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                variant="primary"
-                type="submit"
-                onClick={submitForm}
-              >
-                add
-              </button>
-            </div>
-          )}
-        </div>
-        <br />
-        <div>
-          <h3>your food</h3>
-          {!food
-            ? null
-            : food.map((food) => {
-                return (
-                  <div>
-                    {food.item}, kcal: {food.calories}
-                  </div>
-                );
-              })}
-        </div>
-        total calories {sum}
+            })}
       </div>
-    </Container>
+      <h2> total calories {sum}</h2>
+    </div>
   );
 }
