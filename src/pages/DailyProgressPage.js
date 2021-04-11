@@ -6,8 +6,9 @@ import { addFood } from "../store/Food/actions";
 import { fetchFoods } from "../store/Food/actions";
 import { fetchSpecificUser } from "../store/specificUser/actions";
 import { selectSpecificUser } from "../store/specificUser/selectors";
-import { selectUser } from "../store/user/selectors";
+import { selectToken, selectUser } from "../store/user/selectors";
 import { selectFood } from "../store/Food/selectors";
+import { useHistory } from "react-router";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -22,6 +23,14 @@ export default function DailyProgressPage() {
   const food = useSelector(selectFood);
   const [searchText, set_searchText] = useState("");
   const [searchState, setSearchState] = useState({ status: "idle" });
+  const history = useHistory();
+  const token = useSelector(selectToken);
+
+  useEffect(() => {
+    if (token === null) {
+      history.push("/");
+    }
+  }, [token, history]);
 
   const search = async () => {
     // console.log("TODO search movies for:", searchText);

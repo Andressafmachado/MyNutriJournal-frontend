@@ -1,20 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchSpecificUser } from "../store/specificUser/actions";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { selectSpecificUser } from "../store/specificUser/selectors";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import Container from "react-bootstrap/Container";
+import { selectToken } from "../store/user/selectors";
+import { addTask, fetchTasks } from "../store/Task/actions";
+import { selectTasks } from "../store/Task/selectors";
 
 export default function PlanPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const specificUser = useSelector(selectSpecificUser);
+  const history = useHistory();
+  const token = useSelector(selectToken);
+  const [name, setName] = useState("");
+  const allTasks = useSelector(selectTasks);
+
+  useEffect(() => {
+    if (token === null) {
+      history.push("/");
+    }
+  }, [token, history]);
 
   useEffect(() => {
     dispatch(fetchSpecificUser(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    dispatch(fetchTasks(id));
   }, [dispatch, id]);
 
   function calculateBMI(weight, height) {
@@ -149,17 +166,13 @@ export default function PlanPage() {
   const dietInDays = dietWeeks * 7;
   const progressInPercent = (progressInDays / dietInDays) * 100;
 
-  // console.log("weight: ", weightInKg);
-  // console.log("height: ", heightInM);
-  // console.log("age: ", age);
-  // console.log("daily exercise: ", dailyExercise);
-  // console.log("gender: ", gender);
-  // console.log("BMI: ", BMI);
-  // console.log("BMR: ", BMR);
-  // console.log("ideal weight: ", idealWeight);
-  // console.log("weight to lose: ", weightToLoseKg);
-  // console.log("diet weeks: ", dietWeeks);
-  // console.log("diet calories: ", dietCalories);
+  function submitForm(event) {
+    event.preventDefault();
+
+    dispatch(addTask(name, specificUser.id));
+
+    setName("");
+  }
 
   return (
     <Container>
@@ -219,27 +232,32 @@ export default function PlanPage() {
 
           <br />
           <h2>Manage tasks:</h2>
-          {!specificUser.tasks ? (
+          {!allTasks ? (
             <p>loading...</p>
           ) : (
-            specificUser.tasks.map((task) => {
-              return (
-                <div>
-                  <lu>
-                    <li style={{ border: "solid 1px", width: 150 }}>
-                      {task.name}
-                    </li>
-                  </lu>
-                </div>
-              );
+            allTasks.map((task) => {
+              return <div>{task.name}</div>;
             })
           )}
           <br />
 
           <br />
-          <input style={{ border: "solid 1px", width: 150 }} />
+
+          <input
+            style={{ border: "solid 1px", width: 150 }}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <br />
-          <button style={{ fontSize: 12 }}> add task</button>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            variant="primary"
+            type="submit"
+            onClick={submitForm}
+          >
+            add
+          </button>
         </div>
       </div>
     </Container>
