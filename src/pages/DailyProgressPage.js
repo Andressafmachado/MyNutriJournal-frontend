@@ -9,6 +9,8 @@ import { selectSpecificUser } from "../store/specificUser/selectors";
 import { selectToken, selectUser } from "../store/user/selectors";
 import { selectFood } from "../store/Food/selectors";
 import { useHistory } from "react-router";
+import { selectTasks } from "../store/Task/selectors";
+import { fetchTasks } from "../store/Task/actions";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ export default function DailyProgressPage() {
   const [searchState, setSearchState] = useState({ status: "idle" });
   const history = useHistory();
   const token = useSelector(selectToken);
+  const allTasks = useSelector(selectTasks);
 
   useEffect(() => {
     if (token === null) {
@@ -59,7 +62,9 @@ export default function DailyProgressPage() {
     setItem(item);
   };
 
-  // console.log("searchState", searchState);
+  useEffect(() => {
+    dispatch(fetchTasks(userId));
+  }, [dispatch, userId]);
 
   useEffect(() => {
     dispatch(fetchSpecificUser(userId));
@@ -116,17 +121,11 @@ export default function DailyProgressPage() {
       <br />
       <div>
         <h4>Your tasks for today:</h4>
-        {!specificUser.tasks ? (
+        {!allTasks ? (
           <p>You don't have tasks for today!</p>
         ) : (
-          specificUser.tasks.map((task) => {
-            return (
-              <div key={task.id}>
-                <li style={{ border: "solid 1px", width: "200px" }}>
-                  {task.name}
-                </li>
-              </div>
-            );
+          allTasks.map((task) => {
+            return <div key={task.id}>{task.name}</div>;
           })
         )}
       </div>
