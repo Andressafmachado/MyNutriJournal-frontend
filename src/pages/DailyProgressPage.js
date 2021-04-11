@@ -2,10 +2,12 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useSelector, useDispatch } from "react-redux";
-import { addFood } from "../store/AddFood/actions";
+import { addFood } from "../store/Food/actions";
+import { fetchFoods } from "../store/Food/actions";
 import { fetchSpecificUser } from "../store/specificUser/actions";
 import { selectSpecificUser } from "../store/specificUser/selectors";
 import { selectUser } from "../store/user/selectors";
+import { selectFood } from "../store/Food/selectors";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -15,10 +17,17 @@ export default function DailyProgressPage() {
   const [item, setItem] = useState("");
   const [calories, setCalories] = useState("");
   const specificUser = useSelector(selectSpecificUser);
+  const date = new Date();
+  const today = date.toLocaleDateString().split("/").reverse().join("-");
+  const food = useSelector(selectFood);
 
   useEffect(() => {
     dispatch(fetchSpecificUser(userId));
   }, [dispatch, userId]);
+
+  useEffect(() => {
+    dispatch(fetchFoods(today, userId));
+  }, [dispatch, today, userId]);
 
   //motivational sentences
   useEffect(() => {
@@ -36,7 +45,7 @@ export default function DailyProgressPage() {
       const response = await Axios.get(
         `https://edamam-food-and-grocery-database.p.rapidapi.com/parser`,
         {
-          params: { ingr: "bread" },
+          params: { ingr: "banana bread" },
           headers: {
             "x-rapidapi-key":
               "c4c10462bemshab94b761bbb6e7ap159766jsnb04e024926aa",
@@ -46,7 +55,6 @@ export default function DailyProgressPage() {
         }
       );
       setItem(response.data.hints);
-      console.log("novo useeffect", response);
     }
     fetchData();
   }, []);
@@ -55,7 +63,12 @@ export default function DailyProgressPage() {
     event.preventDefault();
 
     dispatch(
-      addFood(item[0].food.label, item[0].food.nutrients.ENERC_KCAL, userId)
+      addFood(
+        item[0].food.label,
+        item[0].food.nutrients.ENERC_KCAL,
+        userId,
+        today
+      )
     );
 
     setItem("");
@@ -144,6 +157,18 @@ export default function DailyProgressPage() {
           )}
         </div>
         <br />
+        <div>
+          <h3>your food</h3>
+          {!food
+            ? null
+            : food.map((food) => {
+                return (
+                  <div>
+                    {food.item}, kcal: {food.calories}
+                  </div>
+                );
+              })}
+        </div>
       </div>
     </Container>
   );
