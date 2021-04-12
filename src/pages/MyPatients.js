@@ -1,17 +1,23 @@
 import React, { useEffect } from "react";
-import { selectUser } from "../store/user/selectors";
+import { selectUser, selectToken } from "../store/user/selectors";
 import { useSelector, useDispatch } from "react-redux";
 import PatientCart from "../components/PatientCart";
 import { selectMyPatients } from "../store/myPatients/selectors";
 import { fetchMyPatients } from "../store/myPatients/actions";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function MyPatients() {
   const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const myPatients = useSelector(selectMyPatients);
   const dispatch = useDispatch();
-  console.log(`mypatients`, myPatients);
-  console.log(`user`, user);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (token === null) {
+      history.push("/");
+    }
+  }, [token, history]);
 
   useEffect(() => {
     dispatch(fetchMyPatients(user.id));

@@ -9,7 +9,6 @@ import {
 } from "../appState/actions";
 
 export function completedTasksList(data) {
-  console.log("completedTasksList", data);
   return {
     type: "completedTasksList/fetched",
     payload: data,
@@ -27,7 +26,6 @@ export function fetchCompletedTasks(userId) {
 
 //add task
 export const addCompletedTask = (name, userId) => {
-  console.log("in action name", userId);
   return async (dispatch, getState) => {
     // dispatch(appLoading());
     try {
@@ -35,9 +33,14 @@ export const addCompletedTask = (name, userId) => {
         name,
         userId,
       });
-      console.log("add completed task", response.data);
 
-      dispatch(showMessageWithTimeout("success", true, "new food added"));
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          true,
+          "Well done! Another task completed!"
+        )
+      );
       dispatch(fetchCompletedTasks(userId));
     } catch (error) {
       if (error.response) {

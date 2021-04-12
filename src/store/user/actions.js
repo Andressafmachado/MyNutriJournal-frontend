@@ -1,6 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
-import { selectToken } from "./selectors";
+import { selectToken, selectUser } from "./selectors";
 import {
   appLoading,
   appDoneLoading,
@@ -159,6 +159,7 @@ export const getUserWithStoredToken = () => {
   return async (dispatch, getState) => {
     // get token from the state
     const token = selectToken(getState());
+    const user = selectUser(getState());
 
     // if we have no token, stop
     if (token === null) return;
@@ -167,7 +168,47 @@ export const getUserWithStoredToken = () => {
     try {
       // if we do have a token,
       // check wether it is still valid or if it is expired
+
       const response = await axios.get(`${apiUrl}/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // token is still valid
+      dispatch(tokenStillValid(response.data));
+      // console.log("token still valid", response.data);
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.message);
+      } else {
+        console.log(error);
+      }
+      // if we get a 4xx or 5xx response,
+      // get rid of the token by logging out
+      dispatch(logOut());
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+//authDoctor
+export const getDoctorWithStoredToken = () => {
+  return async (dispatch, getState) => {
+    // get token from the state
+    const token = selectToken(getState());
+    const user = selectUser(getState());
+
+    console.log("USER", user);
+
+    // if we have no token, stop
+    if (token === null) return;
+
+    dispatch(appLoading());
+    try {
+      // if we do have a token,
+      // check wether it is still valid or if it is expired
+
+      const response = await axios.get(`${apiUrl}/meDoctor`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
