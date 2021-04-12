@@ -119,24 +119,13 @@ export default function DailyProgressPage() {
   );
 
   const isCompleted = (name) => {
-    const taskCompleted = completedTasks.find((task) => task.name === name);
+    const taskCompleted = completedTasks.find((task) => {
+      const created = task.createdAt.substr(0, 10);
+      return task.name === name && created === today;
+    });
+
     return taskCompleted ? true : false;
   };
-  // console.log("namw fora", name);
-  // function submitFormTask(event) {
-  //   event.preventDefault();
-  //   dispatch(addCompletedTask(name, specificUser.id));
-  //   console.log("name", name);
-  // }
-
-  // function novafunction(name) {
-  //   setName(name);
-  //   function submitFormTask(event) {
-  //     event.preventDefault();
-  //     dispatch(addCompletedTask(name, specificUser.id));
-  //     console.log("name", name);
-  //   }
-  // }
 
   return (
     <div>
