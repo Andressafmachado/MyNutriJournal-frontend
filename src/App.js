@@ -37,11 +37,6 @@ function App() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectAppLoading);
   const user = useSelector(selectUser);
-  console.log("user.age in app.js", user.age);
-
-  // useEffect(() => {
-  //   dispatch(getDoctorWithStoredToken());
-  // }, [dispatch]);
 
   useEffect(() => {
     if (user.age?.length < 3) {

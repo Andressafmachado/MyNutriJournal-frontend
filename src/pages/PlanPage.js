@@ -14,6 +14,7 @@ import { fetchCompletedTasks } from "../store/completedTasks/actions";
 import "react-datepicker/dist/react-datepicker.css";
 import { selectCompletedTasks } from "../store/completedTasks/selectors";
 import DatePicker from "react-datepicker";
+import { selectFood } from "../store/Food/selectors";
 
 export default function PlanPage() {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export default function PlanPage() {
     .split("/")
     .reverse()
     .join("-");
-  console.log("date picker", datePicker);
+  const food = useSelector(selectFood);
 
   useEffect(() => {
     if (token === null) {
@@ -41,6 +42,10 @@ export default function PlanPage() {
   useEffect(() => {
     dispatch(fetchCompletedTasks(specificUser.id));
   }, [dispatch, specificUser.id]);
+
+  // useEffect(() => {
+  //   dispatch(fetchFoods(today, userId));
+  // }, [dispatch, today, userId]);
 
   const isCompleted = (name) => {
     const taskCompleted = completedTasks.find((task) => {

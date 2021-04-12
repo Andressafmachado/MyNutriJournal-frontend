@@ -9,7 +9,6 @@ import {
 } from "../appState/actions";
 
 export function tasksList(data) {
-  console.log("dataaa", data);
   return {
     type: "tasksList/fetched",
     payload: data,
@@ -33,7 +32,6 @@ export const addTask = (name, userId) => {
         name,
         userId,
       });
-      console.log("add task", response.data);
 
       dispatch(showMessageWithTimeout("success", true, "new food added"));
       dispatch(fetchTasks(userId));
