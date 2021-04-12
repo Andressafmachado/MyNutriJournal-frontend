@@ -37,7 +37,13 @@ export const addCompletedTask = (name, userId) => {
       });
       console.log("add completed task", response.data);
 
-      dispatch(showMessageWithTimeout("success", true, "new food added"));
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          true,
+          "Well done! Another task completed!"
+        )
+      );
       dispatch(fetchCompletedTasks(userId));
     } catch (error) {
       if (error.response) {

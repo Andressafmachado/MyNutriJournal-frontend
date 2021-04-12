@@ -10,6 +10,10 @@ import Container from "react-bootstrap/Container";
 import { selectToken } from "../store/user/selectors";
 import { addTask, fetchTasks } from "../store/Task/actions";
 import { selectTasks } from "../store/Task/selectors";
+import { fetchCompletedTasks } from "../store/completedTasks/actions";
+import "react-datepicker/dist/react-datepicker.css";
+import { selectCompletedTasks } from "../store/completedTasks/selectors";
+import DatePicker from "react-datepicker";
 
 export default function PlanPage() {
   const dispatch = useDispatch();
@@ -19,12 +23,37 @@ export default function PlanPage() {
   const token = useSelector(selectToken);
   const [name, setName] = useState("");
   const allTasks = useSelector(selectTasks);
+  const completedTasks = useSelector(selectCompletedTasks);
+  const [startDate, setStartDate] = useState(new Date());
+  const datePicker = startDate
+    .toLocaleDateString()
+    .split("/")
+    .reverse()
+    .join("-");
+  console.log("date picker", datePicker);
 
   useEffect(() => {
     if (token === null) {
       history.push("/");
     }
   }, [token, history]);
+
+  useEffect(() => {
+    dispatch(fetchCompletedTasks(specificUser.id));
+  }, [dispatch, specificUser.id]);
+
+  const isCompleted = (name) => {
+    const taskCompleted = completedTasks.find((task) => {
+      const created = task.createdAt.substr(0, 10);
+      console.log("created ", created);
+      return task.name === name && created === datePicker;
+    });
+
+    return taskCompleted ? true : false;
+  };
+
+  //percent tasks done
+  const percTasksDone = (100 / allTasks.length) * completedTasks.length;
 
   useEffect(() => {
     dispatch(fetchSpecificUser(id));
@@ -258,6 +287,57 @@ export default function PlanPage() {
           >
             add
           </button>
+        </div>
+        <div>
+          {" "}
+          <br />
+          <br />
+          <br />
+          completed tasks:
+          <br />
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+          />
+          <br />
+          {percTasksDone}% done for this day!
+          <br />
+          {!allTasks ? (
+            <p>You don't have tasks for today!</p>
+          ) : (
+            allTasks.map((task) => {
+              return (
+                <div>
+                  <div
+                    value={name}
+                    style={{
+                      backgroundColor: isCompleted(task.name)
+                        ? "green  "
+                        : "yellow",
+                      width: 300,
+                      padding: 10,
+                      border: "solid gray 1px",
+                    }}
+                    key={task.id}
+                  >
+                    {isCompleted(task.name) ? (
+                      <input type="checkbox" checked="checked" />
+                    ) : (
+                      <input type="checkbox" />
+                    )}
+                    {"      "}
+
+                    <label>
+                      {" "}
+                      {"  "}
+                      {task.name}
+                    </label>
+                  </div>{" "}
+                </div>
+              );
+            })
+          )}
+          {completedTasks.length} / {allTasks.length} done!
         </div>
       </div>
     </Container>
