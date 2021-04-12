@@ -14,7 +14,8 @@ import { fetchCompletedTasks } from "../store/completedTasks/actions";
 import "react-datepicker/dist/react-datepicker.css";
 import { selectCompletedTasks } from "../store/completedTasks/selectors";
 import DatePicker from "react-datepicker";
-import { selectFood } from "../store/Food/selectors";
+import { selectAllFood } from "../store/allFood/selectors";
+import { fetchAllFoods } from "../store/allFood/actions";
 
 export default function PlanPage() {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function PlanPage() {
     .split("/")
     .reverse()
     .join("-");
-  const food = useSelector(selectFood);
+  const allFood = useSelector(selectAllFood);
 
   useEffect(() => {
     if (token === null) {
@@ -43,22 +44,20 @@ export default function PlanPage() {
     dispatch(fetchCompletedTasks(specificUser.id));
   }, [dispatch, specificUser.id]);
 
-  // useEffect(() => {
-  //   dispatch(fetchFoods(today, userId));
-  // }, [dispatch, today, userId]);
+  useEffect(() => {
+    dispatch(fetchAllFoods(datePicker, specificUser.id));
+  }, [dispatch, datePicker, specificUser.id]);
 
   const isCompleted = (name) => {
     const taskCompleted = completedTasks.find((task) => {
       const created = task.createdAt.substr(0, 10);
-      console.log("created ", created);
       return task.name === name && created === datePicker;
     });
-
     return taskCompleted ? true : false;
   };
 
   //percent tasks done
-  const percTasksDone = (100 / allTasks.length) * completedTasks.length;
+  // const percTasksDone = (100 / allTasks.length) * completedTasks.length;
 
   useEffect(() => {
     dispatch(fetchSpecificUser(id));
@@ -208,6 +207,12 @@ export default function PlanPage() {
     setName("");
   }
 
+  let initialValue = 0;
+  let sum = allFood.reduce(
+    (accumulator, currentValue) => accumulator + Number(currentValue.calories),
+    initialValue
+  );
+
   return (
     <Container>
       <div>
@@ -266,14 +271,16 @@ export default function PlanPage() {
 
           <br />
           <h2>Manage tasks:</h2>
+          {allTasks < 1 ? (
+            <p>You don't have tasks yet, lets add something here!</p>
+          ) : null}
           {!allTasks ? (
-            <p>loading...</p>
+            <p>You don't have tasks yet, lets add something here!</p>
           ) : (
             allTasks.map((task) => {
               return <div>{task.name}</div>;
             })
           )}
-          <br />
 
           <br />
 
@@ -298,17 +305,20 @@ export default function PlanPage() {
           <br />
           <br />
           <br />
-          completed tasks:
+          Choose a day to check your historic:
           <br />
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
-          />
+          />{" "}
           <br />
-          {percTasksDone}% done for this day!
           <br />
+          <h5>Tasks:</h5>
+          {allTasks < 1 ? (
+            <p>There is no completed tasks register for this day!</p>
+          ) : null}
           {!allTasks ? (
-            <p>You don't have tasks for today!</p>
+            <p>loading ...</p>
           ) : (
             allTasks.map((task) => {
               return (
@@ -316,9 +326,9 @@ export default function PlanPage() {
                   <div
                     value={name}
                     style={{
-                      backgroundColor: isCompleted(task.name)
-                        ? "green  "
-                        : "yellow",
+                      // backgroundColor: isCompleted(task.name)
+                      //   ? "green  "
+                      //   : "yellow",
                       width: 300,
                       padding: 10,
                       border: "solid gray 1px",
@@ -326,23 +336,52 @@ export default function PlanPage() {
                     key={task.id}
                   >
                     {isCompleted(task.name) ? (
-                      <input type="checkbox" checked="checked" />
+                      <img
+                        src="https://mxpez29397.i.lithium.com/html/images/emoticons/2705.png"
+                        width="30px"
+                      />
                     ) : (
-                      <input type="checkbox" />
-                    )}
+                      <img
+                        src="https://images.emojiterra.com/google/android-11/128px/274c.png"
+                        width="30px"
+                      />
+                    )}{" "}
                     {"      "}
-
-                    <label>
-                      {" "}
-                      {"  "}
-                      {task.name}
-                    </label>
+                    {task.name}
                   </div>{" "}
                 </div>
               );
             })
           )}
-          {completedTasks.length} / {allTasks.length} done!
+          <div>
+            <h5>Food:</h5>
+            {!Array.isArray(allFood) ? (
+              <div>your history food here!</div>
+            ) : (
+              allFood.map((food) => {
+                return (
+                  <div
+                    style={{
+                      // backgroundColor: isCompleted(task.name)
+                      //   ? "green  "
+                      //   : "yellow",
+                      width: 300,
+                      padding: 10,
+                      border: "solid gray 1px",
+                    }}
+                    key={food.id}
+                  >
+                    {food.item}, {food.calories} kcal
+                  </div>
+                );
+              })
+            )}
+            {sum < 1 ? (
+              <h5> There is no registered food for this day! </h5>
+            ) : (
+              <h5> total calories {sum}</h5>
+            )}
+          </div>
         </div>
       </div>
     </Container>
