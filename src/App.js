@@ -10,13 +10,17 @@ import Login from "./pages/Login";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "./store/appState/selectors";
-import { getUserWithStoredToken } from "./store/user/actions";
+import {
+  getDoctorWithStoredToken,
+  getUserWithStoredToken,
+} from "./store/user/actions";
 import { Jumbotron } from "react-bootstrap";
 import loginDoctor from "./pages/loginDoctor";
 import signupDoctor from "./pages/signupDoctor";
 import MyPatients from "./pages/MyPatients";
 import PlanPage from "./pages/PlanPage";
 import DailyProgressPage from "./pages/DailyProgressPage";
+import { selectUser } from "./store/user/selectors";
 
 const Home = () => (
   <Jumbotron>
@@ -32,9 +36,19 @@ const Other = () => (
 function App() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectAppLoading);
+  const user = useSelector(selectUser);
+  console.log("user.age in app.js", user.age);
+
+  // useEffect(() => {
+  //   dispatch(getDoctorWithStoredToken());
+  // }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getUserWithStoredToken());
+    if (user.age?.length < 3) {
+      dispatch(getUserWithStoredToken());
+    } else {
+      dispatch(getDoctorWithStoredToken());
+    }
   }, [dispatch]);
 
   return (
