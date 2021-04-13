@@ -131,50 +131,6 @@ export default function PlanPage() {
     }
   }
 
-  function validateWeightHeightAndAge(weight, height, ageOfUser, argv) {
-    if (isNaN(weight) || isNaN(height) || isNaN(ageOfUser)) {
-      console.log(`
-        Please make sure weight, height and age are numbers:
-
-        weight (kg) example: 82 | your input: ${argv[2]}
-        height (m) example 1.79 | your input: ${argv[3]}
-        age (years) example 32  | your input: ${argv[4]}
-
-        $ node index.js 82 1.79 32 yes m
-      `);
-
-      process.exit();
-    }
-
-    if (ageOfUser < 20) {
-      console.log(
-        `This BMI calculator was designed to be used by people older than 20. BMI is calculated differently for young people.`
-      );
-      process.exit();
-    }
-
-    if (weight < 30 || weight > 300) {
-      console.log(`Please, for weight provide a number between 30 and 300kg`);
-      process.exit();
-    }
-  }
-
-  function validateDailyExercise(doesUserExercise) {
-    if (doesUserExercise !== "yes" && doesUserExercise !== "no") {
-      console.log(
-        `Please specify wether you exercise daily with "yes" or "no"`
-      );
-      process.exit();
-    }
-  }
-
-  function validateGender(gender) {
-    if (gender !== "m" && gender !== "f") {
-      console.log(`Please, for gender provide "m" or "f".`);
-      process.exit();
-    }
-  }
-
   const weightInKg = specificUser.weight;
   const heightInM = specificUser.height;
   const age = specificUser.age;
