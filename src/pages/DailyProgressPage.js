@@ -131,6 +131,7 @@ export default function DailyProgressPage() {
     <div>
       <h1>Daily Progress</h1>
       <br />
+      <img src={user.image} wight="50%" />
       <h2>Welcome {user.name}</h2>
       <br />
       <br />
@@ -144,6 +145,7 @@ export default function DailyProgressPage() {
       <br />
       <div>
         <h4>Your tasks for today:</h4>
+        {allTasks < 1 ? <p>You don't have tasks for today!</p> : null}
         {!allTasks ? (
           <p>You don't have tasks for today!</p>
         ) : (
@@ -168,7 +170,6 @@ export default function DailyProgressPage() {
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(addCompletedTask(task.name, userId));
-                        console.log(`this is the table:`, task.name);
                       }}
                       type="button"
                       class="btn btn-primary btn-sm"

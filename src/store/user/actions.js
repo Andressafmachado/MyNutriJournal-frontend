@@ -27,7 +27,7 @@ const tokenStillValid = (userWithoutToken) => ({
 export const logOut = () => ({ type: LOG_OUT });
 
 //user sign up
-export const signUp = (
+export const signUp = ({
   name,
   email,
   password,
@@ -36,8 +36,10 @@ export const signUp = (
   weight,
   gender,
   exerciseDaily,
-  history
-) => {
+  history,
+  doctorId,
+  image,
+}) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
@@ -50,8 +52,10 @@ export const signUp = (
         weight,
         gender,
         exerciseDaily,
+        doctorId,
+        image,
       });
-      console.log("user info to login", response.data);
+
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", true, "account created"));
       dispatch(appDoneLoading());
@@ -60,8 +64,8 @@ export const signUp = (
       history.push(`/dailyprogress`);
     } catch (error) {
       if (error.response) {
-        console.log(error.response.data.message);
-        dispatch(setMessage("danger", true, error.response.data.message));
+        console.log("error in the signup action", error.response.data);
+        dispatch(setMessage("danger", true, error.response.data));
       } else {
         console.log(error.message);
         dispatch(setMessage("danger", true, error.message));

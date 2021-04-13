@@ -7,6 +7,7 @@ import foodReducer from "./Food/reducer";
 import taskReducer from "./Task/reducer";
 import completedTasksReducer from "./completedTasks/reducer";
 import allFoodReducer from "./allFood/reducer";
+import allDoctorsReducer from "./allDoctors/reducer";
 
 export default combineReducers({
   appState,
@@ -17,4 +18,5 @@ export default combineReducers({
   task: taskReducer,
   completedTasks: completedTasksReducer,
   allFood: allFoodReducer,
+  allDoctors: allDoctorsReducer,
 });
