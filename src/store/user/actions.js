@@ -36,9 +36,10 @@ export const signUp = ({
   weight,
   gender,
   exerciseDaily,
-  history,
+
   doctorId,
   image,
+  history,
 }) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
@@ -65,7 +66,9 @@ export const signUp = ({
     } catch (error) {
       if (error.response) {
         console.log("error in the signup action", error.response.data);
-        dispatch(setMessage("danger", true, error.response.data));
+        dispatch(
+          setMessage("danger", true, JSON.stringify(error.response.data))
+        );
       } else {
         console.log(error.message);
         dispatch(setMessage("danger", true, error.message));
