@@ -24,7 +24,7 @@ export default function SignUp() {
   const user = useSelector(selectUser);
   const userId = user.id;
   const allDoctors = useSelector(selectAllDoctors);
-  const [doctorId, setDoctorId] = useState("");
+  const [doctorId, setDoctorId] = useState();
 
   useEffect(() => {
     dispatch(fetchAllDoctors());
@@ -58,11 +58,8 @@ export default function SignUp() {
     setImage("");
   }
 
-  // Image upload: https://api.cloudinary.com/v1_1/andmachado/image/upload
-
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
-  console.log("image use state", image);
 
   const uploadImage = async (e) => {
     console.log("triggered");
@@ -192,7 +189,7 @@ export default function SignUp() {
               setDoctorId(e.target.value);
             }}
           >
-            <option>I don't have a Nutritionist!</option>
+            <option value={10000000000}>I don't have a Nutritionist!</option>
             {!Array.isArray(allDoctors)
               ? null
               : allDoctors.map((doctor) => {

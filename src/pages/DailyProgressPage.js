@@ -16,6 +16,7 @@ import {
   fetchCompletedTasks,
 } from "../store/completedTasks/actions";
 import { selectCompletedTasks } from "../store/completedTasks/selectors";
+import { fetchMyDoctor } from "../store/myDoctor/actions";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -41,6 +42,10 @@ export default function DailyProgressPage() {
       history.push("/");
     }
   }, [token, history]);
+
+  useEffect(() => {
+    dispatch(fetchMyDoctor(specificUser.doctorId));
+  }, [dispatch, specificUser.doctorId]);
 
   useEffect(() => {
     dispatch(fetchTasks(userId));
@@ -131,7 +136,7 @@ export default function DailyProgressPage() {
     <div>
       <h1>Daily Progress</h1>
       <br />
-      <img src={user.image} wight="50%" />
+      <img src={user.image} wight="50%" height="auto" />
       <h2>Welcome {user.name}</h2>
       <br />
       <br />
