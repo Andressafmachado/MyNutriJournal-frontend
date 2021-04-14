@@ -31,9 +31,9 @@ export default function Navigation() {
             <NavbarItem path="/mypatients" linkText="Home" />
           )}
 
-          {user.isDoctor ? null : (
+          {!user.isDoctor && token ? (
             <NavbarItem path={`./plan/${user.id}`} linkText="My Plan" />
-          )}
+          ) : null}
 
           {loginLogoutControls}
         </Nav>

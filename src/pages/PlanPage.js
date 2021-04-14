@@ -106,9 +106,6 @@ export default function PlanPage() {
     return taskCompleted ? true : false;
   };
 
-  //percent tasks done
-  // const percTasksDone = (100 / allTasks.length) * completedTasks.length;
-
   useEffect(() => {
     dispatch(fetchSpecificUser(id));
   }, [dispatch, id]);
@@ -215,7 +212,7 @@ export default function PlanPage() {
           <h5>gender: {specificUser.gender}</h5>
           <h5>exerciseDaily: {specificUser.exerciseDaily}</h5>
         </div>
-        {myDoctor.length < 3 ? null : (
+        {user.isDoctor ? null : (
           <div>
             your Doctor
             <br />
