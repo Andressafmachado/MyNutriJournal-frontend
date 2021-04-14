@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { selectUser, selectToken } from "../store/user/selectors";
 import { useSelector, useDispatch } from "react-redux";
 import PatientCart from "../components/PatientCart";
@@ -12,6 +12,9 @@ export default function MyPatients() {
   const myPatients = useSelector(selectMyPatients);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [searchText, set_searchText] = useState("");
+  const [state, setState] = useState(myPatients);
+  console.log("mystate", state);
 
   useEffect(() => {
     if (token === null) {
@@ -23,6 +26,20 @@ export default function MyPatients() {
     dispatch(fetchMyPatients(user.id));
   }, [dispatch, user.id]);
 
+  const found = myPatients.filter(function (patient) {
+    if (patient.name.toLowerCase().includes(searchText.toLowerCase())) {
+      return true;
+    }
+  });
+  console.log("found", found);
+
+  const navigateToSearch = (e) => {
+    e.preventDefault();
+    const routeParam = encodeURIComponent(searchText);
+    // history.push(`/searchpage/${routeParam}`);
+    console.log(searchText);
+  };
+
   return (
     <div>
       <br />
@@ -30,12 +47,15 @@ export default function MyPatients() {
       <h1>Welcome {`${user.name}`}</h1> <br />
       <br />
       <div>search for patient:</div>
-      <input />
-      <button>Search</button>
-      {!myPatients ? (
-        <p> loading</p>
+      <input
+        value={searchText}
+        onChange={(e) => set_searchText(e.target.value)}
+      />
+      <button type="submit">Search</button>
+      {found?.length < 1 ? (
+        <p> Patients not found!</p>
       ) : (
-        myPatients.map((patient) => {
+        found.map((patient) => {
           return (
             <div key={patient.id}>
               <Link to={`./plan/${patient.id}`}>
