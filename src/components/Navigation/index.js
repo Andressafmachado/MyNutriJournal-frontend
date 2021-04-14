@@ -6,32 +6,32 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../../store/user/selectors";
 import NavbarItem from "./NavbarItem";
 import LoggedIn from "./LoggedIn";
-// import LoggedOut from "./LoggedOut";
+import LoggedOut from "./LoggedOut";
 import { selectUser } from "../../store/user/selectors";
 
 export default function Navigation() {
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
 
-  const loginLogoutControls = token ? <LoggedIn /> : null;
+  const loginLogoutControls = token ? <LoggedIn /> : <LoggedOut />;
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand
+      {/* <Navbar.Brand
       // as={NavLink} to="/"
       >
         My Nutri Journal
-      </Navbar.Brand>
+      </Navbar.Brand> */}
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav style={{ width: "100%" }} fill>
-          {!user.age ? (
-            <NavbarItem path="/mypatients" linkText="Home" />
-          ) : (
+          {!user.isDoctor ? (
             <NavbarItem path="/dailyprogress" linkText="Home" />
+          ) : (
+            <NavbarItem path="/mypatients" linkText="Home" />
           )}
 
-          {!user.age ? null : (
+          {user.isDoctor ? null : (
             <NavbarItem path={`./plan/${user.id}`} linkText="My Plan" />
           )}
 

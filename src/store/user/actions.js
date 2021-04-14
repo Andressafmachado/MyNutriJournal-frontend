@@ -80,7 +80,7 @@ export const signUp = ({
 };
 
 //doctor sign up
-export const signUpDoctor = (name, email, password, history) => {
+export const signUpDoctor = (name, email, password, history, image) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
@@ -88,6 +88,7 @@ export const signUpDoctor = (name, email, password, history) => {
         name,
         email,
         password,
+        image,
       });
 
       dispatch(loginSuccess(response.data));
@@ -205,7 +206,8 @@ export const getDoctorWithStoredToken = () => {
     const token = selectToken(getState());
     const user = selectUser(getState());
 
-    console.log("USER", user);
+    // console.log("token getDoctorWithStoredToken", token);
+    // console.log("USER in getDoctorWithStoredToken ", user);
 
     // if we have no token, stop
     if (token === null) return;

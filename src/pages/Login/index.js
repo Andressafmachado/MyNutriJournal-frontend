@@ -28,12 +28,6 @@ export default function SignUp() {
   return (
     <Container>
       <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
-        <h1 className="mt-5 mb-5">Welcome to My Nutri Journal</h1>
-        <h3>
-          This app is going yo help you track your diet and tasks to get a
-          healthier life and active your goals!
-        </h3>
-        <br />
         <h5>Login</h5>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -63,20 +57,18 @@ export default function SignUp() {
         </Form.Group>
         <br />
 
-        <h5>Don't you have a nutritionist?</h5>
-        <h3>
-          You can also do it by yourself:
+        <h6>
           <Link to="/signup" style={{ textAlign: "center" }}>
             {" "}
             sign up here
           </Link>{" "}
-        </h3>
+        </h6>
         <br />
-        <h3>
+        <h6>
           Are you a nutritionist?
           <Link to="/logindoctor"> login</Link> ou
           <Link to="/signupdoctor"> sign up here</Link>{" "}
-        </h3>
+        </h6>
       </Form>
     </Container>
   );
