@@ -21,6 +21,7 @@ import MyPatients from "./pages/MyPatients";
 import PlanPage from "./pages/PlanPage";
 import DailyProgressPage from "./pages/DailyProgressPage";
 import { selectUser } from "./store/user/selectors";
+import HomePage from "./pages/HomePage";
 
 const Home = () => (
   <Jumbotron>
@@ -52,7 +53,8 @@ function App() {
       <MessageBox />
       {isLoading ? <Loading /> : null}
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/" component={HomePage} />
+        <Route path="/login" component={Login} />
         <Route path="/signupdoctor" component={signupDoctor} />
         <Route path="/signup" component={SignUp} />
         <Route path="/logindoctor" component={loginDoctor} />
