@@ -36,6 +36,7 @@ export default function PlanPage() {
     .join("-");
   const allFood = useSelector(selectAllFood);
   const myDoctor = useSelector(selectMyDoctor);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchMyDoctor(specificUser.doctorId));
@@ -169,8 +170,8 @@ export default function PlanPage() {
             height="auto"
             class="rounded-circle"
             alt="patientImage"
-            width="150"
-            height="150"
+            width="auto"
+            height="200"
           />
           <br />
           <br />
