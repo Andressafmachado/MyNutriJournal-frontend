@@ -17,6 +17,9 @@ import {
 } from "../store/completedTasks/actions";
 import { selectCompletedTasks } from "../store/completedTasks/selectors";
 import { fetchMyDoctor } from "../store/myDoctor/actions";
+import { selectTodayComments } from "../store/todayComments/selectors";
+import { fetchTodayComments } from "../store/todayComments/actions";
+import { addComment } from "../store/todayComments/actions";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -36,6 +39,8 @@ export default function DailyProgressPage() {
   const allTasks = useSelector(selectTasks);
   const completedTasks = useSelector(selectCompletedTasks);
   const [name, setName] = useState("");
+  const [comment, setComment] = useState("");
+  const todayComments = useSelector(selectTodayComments);
 
   useEffect(() => {
     if (token === null) {
@@ -62,6 +67,11 @@ export default function DailyProgressPage() {
   useEffect(() => {
     dispatch(fetchFoods(today, userId));
   }, [dispatch, today, userId]);
+
+  //today comments
+  useEffect(() => {
+    dispatch(fetchTodayComments(specificUser.id, today));
+  }, [dispatch, specificUser.id, today]);
 
   const search = async () => {
     // console.log("TODO search movies for:", searchText);
@@ -132,6 +142,21 @@ export default function DailyProgressPage() {
     return taskCompleted ? true : false;
   };
 
+  //ADD NEW COMMENT
+  function submitFormComment(event) {
+    event.preventDefault();
+    dispatch(
+      addComment(
+        comment,
+        user.name,
+        specificUser.id,
+        specificUser.doctorId,
+        today
+      )
+    );
+    setComment("");
+  }
+
   return (
     <div>
       <h1>Daily Progress</h1>
@@ -148,6 +173,40 @@ export default function DailyProgressPage() {
 
       <br />
       <br />
+      <div>
+        <h2>comments</h2>
+        {!todayComments ? (
+          <div>loading ... </div>
+        ) : (
+          todayComments.map((comment) => {
+            return (
+              <div>
+                {comment.name} said:
+                <br />
+                {comment.content}
+                <br />
+                <br />
+              </div>
+            );
+          })
+        )}
+
+        <input
+          style={{ border: "solid 1px", width: 150 }}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <br />
+        <button
+          type="button"
+          class="btn btn-primary btn-sm"
+          variant="primary"
+          type="submit"
+          onClick={submitFormComment}
+        >
+          add
+        </button>
+      </div>
       <div>
         <h4>Your tasks for today:</h4>
         {allTasks < 1 ? <p>You don't have tasks for today!</p> : null}

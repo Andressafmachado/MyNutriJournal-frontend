@@ -18,6 +18,10 @@ import { selectAllFood } from "../store/allFood/selectors";
 import { fetchAllFoods } from "../store/allFood/actions";
 import { selectMyDoctor } from "../store/myDoctor/selectors";
 import { fetchMyDoctor } from "../store/myDoctor/actions";
+import { selectComments } from "../store/Comments/selectors";
+import { fetchComments } from "../store/Comments/actions";
+import { addComment, fetchTodayComments } from "../store/todayComments/actions";
+import { selectTodayComments } from "../store/todayComments/selectors";
 
 export default function PlanPage() {
   const dispatch = useDispatch();
@@ -27,6 +31,9 @@ export default function PlanPage() {
   const token = useSelector(selectToken);
   const [name, setName] = useState("");
   const allTasks = useSelector(selectTasks);
+  const allComments = useSelector(selectComments);
+  const todayComments = useSelector(selectTodayComments);
+  const [comment, setComment] = useState("");
   const completedTasks = useSelector(selectCompletedTasks);
   const [startDate, setStartDate] = useState(new Date());
   const datePicker = startDate
@@ -37,6 +44,31 @@ export default function PlanPage() {
   const allFood = useSelector(selectAllFood);
   const myDoctor = useSelector(selectMyDoctor);
   const user = useSelector(selectUser);
+
+  const weightInKg = specificUser.weight;
+  const heightInM = specificUser.height;
+  const age = specificUser.age;
+  const gender = specificUser.gender;
+  const dailyExercise = specificUser.exerciseDaily;
+
+  const BMI = calculateBMI(weightInKg, heightInM);
+  const BMR = calculateBMR(weightInKg, heightInM, age, gender);
+  const idealWeight = calculateIdealWeight(heightInM);
+  const dailyCalories = calculateDailyCalories(BMR, dailyExercise);
+  const weightToLoseKg = weightInKg - idealWeight;
+  const dietWeeks = calculateDietWeeks(weightToLoseKg);
+  const dietWeeksString = Math.abs(dietWeeks);
+  const dietCalories = calculateDietCalories(weightToLoseKg, dailyCalories);
+
+  //progress
+  const initialDate = specificUser.createdAt;
+  const date = new Date();
+  const today = date.toLocaleDateString().split("/").reverse().join("-");
+  const start = moment(initialDate);
+  const end = moment(today);
+  const progressInDays = end.diff(start, "days");
+  const dietInDays = dietWeeks * 7;
+  const progressInPercent = (progressInDays / dietInDays) * 100;
 
   useEffect(() => {
     dispatch(fetchMyDoctor(specificUser.doctorId));
@@ -55,6 +87,16 @@ export default function PlanPage() {
   useEffect(() => {
     dispatch(fetchAllFoods(datePicker, specificUser.id));
   }, [dispatch, datePicker, specificUser.id]);
+
+  //comments for specific day
+  useEffect(() => {
+    dispatch(fetchComments(specificUser.id, datePicker));
+  }, [dispatch, specificUser.id, datePicker]);
+
+  //today comments
+  useEffect(() => {
+    dispatch(fetchTodayComments(specificUser.id, today));
+  }, [dispatch, specificUser.id, today]);
 
   const isCompleted = (name) => {
     const taskCompleted = completedTasks.find((task) => {
@@ -117,37 +159,26 @@ export default function PlanPage() {
     return dietCalories;
   }
 
-  const weightInKg = specificUser.weight;
-  const heightInM = specificUser.height;
-  const age = specificUser.age;
-  const gender = specificUser.gender;
-  const dailyExercise = specificUser.exerciseDaily;
-
-  const BMI = calculateBMI(weightInKg, heightInM);
-  const BMR = calculateBMR(weightInKg, heightInM, age, gender);
-  const idealWeight = calculateIdealWeight(heightInM);
-  const dailyCalories = calculateDailyCalories(BMR, dailyExercise);
-  const weightToLoseKg = weightInKg - idealWeight;
-  const dietWeeks = calculateDietWeeks(weightToLoseKg);
-  const dietWeeksString = Math.abs(dietWeeks);
-  const dietCalories = calculateDietCalories(weightToLoseKg, dailyCalories);
-
-  //progress
-  const initialDate = specificUser.createdAt;
-  const date = new Date();
-  const today = date.toLocaleDateString().split("/").reverse().join("-");
-  const start = moment(initialDate);
-  const end = moment(today);
-  const progressInDays = end.diff(start, "days");
-  const dietInDays = dietWeeks * 7;
-  const progressInPercent = (progressInDays / dietInDays) * 100;
-
+  //ADD NEW TASK
   function submitForm(event) {
     event.preventDefault();
-
     dispatch(addTask(name, specificUser.id));
-
     setName("");
+  }
+
+  //ADD NEW COMMENT
+  function submitFormComment(event) {
+    event.preventDefault();
+    dispatch(
+      addComment(
+        comment,
+        user.name,
+        specificUser.id,
+        specificUser.doctorId,
+        today
+      )
+    );
+    setComment("");
   }
 
   let initialValue = 0;
@@ -238,6 +269,40 @@ export default function PlanPage() {
           <br />
 
           <br />
+
+          <div>
+            <h2>today comments</h2>
+            {!todayComments ? (
+              <div>loading ... </div>
+            ) : (
+              todayComments.map((comment) => {
+                return (
+                  <div>
+                    {comment.name} said:
+                    <br />
+                    {comment.content}
+                    <br />
+                    <br />
+                  </div>
+                );
+              })
+            )}
+            <input
+              style={{ border: "solid 1px", width: 150 }}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <br />
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              variant="primary"
+              type="submit"
+              onClick={submitFormComment}
+            >
+              add
+            </button>
+          </div>
           <h2>Manage tasks:</h2>
           {allTasks < 1 ? (
             <p>You don't have tasks yet, lets add something here!</p>
@@ -350,6 +415,22 @@ export default function PlanPage() {
               <h5> total calories {sum}</h5>
             )}
           </div>
+          <h2>comments for this day</h2>
+          {!allComments ? (
+            <div>loading ... </div>
+          ) : (
+            allComments.map((comment) => {
+              return (
+                <div>
+                  name:{comment.name}
+                  <br />
+                  comment:{comment.content}
+                  <br />
+                  <br />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </Container>
