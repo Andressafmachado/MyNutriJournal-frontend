@@ -20,6 +20,8 @@ import { fetchMyDoctor } from "../store/myDoctor/actions";
 import { selectTodayComments } from "../store/todayComments/selectors";
 import { fetchTodayComments } from "../store/todayComments/actions";
 import { addComment } from "../store/todayComments/actions";
+import moment from "moment";
+import { selectMyDoctor } from "../store/myDoctor/selectors";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -41,6 +43,73 @@ export default function DailyProgressPage() {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
   const todayComments = useSelector(selectTodayComments);
+  const myDoctor = useSelector(selectMyDoctor);
+  const weightInKg = specificUser.weight;
+  const heightInM = specificUser.height;
+  const age = specificUser.age;
+  const gender = specificUser.gender;
+  const dailyExercise = specificUser.exerciseDaily;
+
+  const BMI = calculateBMI(weightInKg, heightInM);
+  const BMR = calculateBMR(weightInKg, heightInM, age, gender);
+  const idealWeight = calculateIdealWeight(heightInM);
+  const dailyCalories = calculateDailyCalories(BMR, dailyExercise);
+  const weightToLoseKg = weightInKg - idealWeight;
+  const dietWeeks = calculateDietWeeks(weightToLoseKg);
+  const dietWeeksString = Math.abs(dietWeeks);
+  const dietCalories = calculateDietCalories(weightToLoseKg, dailyCalories);
+
+  //progress
+  const initialDate = specificUser.createdAt;
+  // const date = new Date();
+  // const today = date.toLocaleDateString().split("/").reverse().join("-");
+  const start = moment(initialDate);
+  const end = moment(today);
+  const progressInDays = end.diff(start, "days");
+  const dietInDays = dietWeeks * 7;
+  const progressInPercent = (progressInDays / dietInDays) * 100;
+
+  function calculateBMI(weight, height) {
+    return weight / (height * height);
+  }
+
+  function calculateBMR(weight, height, ageOfUser, genderOfUser) {
+    const heightInCm = height * 100;
+
+    let BMR;
+
+    if (genderOfUser === "m") {
+      BMR = 10 * weight + 6.25 * heightInCm - 5 * ageOfUser + 50;
+    } else {
+      BMR = 10 * weight + 6.25 * heightInCm - 5 * ageOfUser - 150;
+    }
+
+    return BMR;
+  }
+
+  function calculateIdealWeight(height) {
+    return 22.5 * height * height;
+  }
+
+  function calculateDailyCalories(basalMetabolicRate, doesUserExercise) {
+    return doesUserExercise === "yes"
+      ? basalMetabolicRate * 1.6
+      : basalMetabolicRate * 1.4;
+  }
+
+  function calculateDietWeeks(weightToLoseKg) {
+    return Math.ceil(weightToLoseKg / 0.5);
+  }
+
+  function calculateDietCalories(weightToLoseKg, dailyCalories) {
+    let dietCalories;
+    if (weightToLoseKg < 0) {
+      dietCalories = dailyCalories + 500;
+    } else {
+      dietCalories = dailyCalories - 500;
+    }
+    return dietCalories;
+  }
 
   useEffect(() => {
     if (token === null) {
@@ -138,7 +207,6 @@ export default function DailyProgressPage() {
       const created = task.createdAt.substr(0, 10);
       return task.name === name && created === today;
     });
-
     return taskCompleted ? true : false;
   };
 
@@ -159,6 +227,7 @@ export default function DailyProgressPage() {
 
   return (
     <div>
+      <h1>progress: {Math.floor(progressInPercent)}%</h1>
       <h1>Daily Progress</h1>
       <br />
       <img src={user.image} wight="500px" height="500px" />
@@ -172,6 +241,22 @@ export default function DailyProgressPage() {
       </div>
 
       <br />
+      {user.isDoctor ? null : (
+        <div>
+          <img
+            src={myDoctor.image}
+            class="rounded-circle"
+            alt="patientImage"
+            width="75"
+            height="75"
+          />
+          your Doctor
+          <br />
+          name:{myDoctor.name}
+          <br />
+          email: {myDoctor.email}
+        </div>
+      )}
       <br />
       <div>
         <h2>comments</h2>

@@ -43,7 +43,15 @@ export default function MyPatients() {
   return (
     <div>
       <br />
-      <img src={user.image} />
+      <img
+        src={user.image}
+        wight="50%"
+        height="auto"
+        class="rounded-circle"
+        alt="patientImage"
+        width="auto"
+        height="200"
+      />
       <h1>Welcome {`${user.name}`}</h1> <br />
       <br />
       <div>search for patient:</div>
