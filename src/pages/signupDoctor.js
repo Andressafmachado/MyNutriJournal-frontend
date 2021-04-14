@@ -3,10 +3,10 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { signUpDoctor } from "../store/user/actions";
-
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
+import "./Login/index.css";
 
 export default function SignupDoctor() {
   const [name, setName] = useState("");
@@ -48,8 +48,9 @@ export default function SignupDoctor() {
   };
 
   return (
-    <Container>
-      <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
+    // <Container>
+    <div className="login">
+      <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <div>
           <h1> Sign up</h1>
         </div>
@@ -83,27 +84,28 @@ export default function SignupDoctor() {
           />
         </Form.Group>
 
-        <div className="App">
-          <h5>Upload your profile picture</h5>
-          <input
-            type="file"
-            name="file"
-            placeholder="drag it here"
-            onChange={uploadImage}
-          />
-          <img src={image} width="50%" />
-        </div>
+        <h6>Upload your profile picture</h6>
+        <input
+          type="file"
+          name="file"
+          placeholder="drag it here"
+          onChange={uploadImage}
+        />
+        <img src={image} width="50%" />
 
         <Form.Group className="mt-5">
-          <Button variant="primary" type="submit" onClick={submitForm}>
+          <Button variant="light" type="submit" onClick={submitForm}>
             Sign up
           </Button>
         </Form.Group>
         <p>
           Already have an account?{" "}
-          <Link to="/logindoctor">Click here to log in</Link>
+          <Link to="/logindoctor" style={{ color: "black" }}>
+            Click here to log in
+          </Link>
         </p>
       </Form>
-    </Container>
+      {/* </Container> */}
+    </div>
   );
 }

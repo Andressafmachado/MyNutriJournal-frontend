@@ -1,0 +1,12 @@
+.login {
+  padding: 150px;
+
+  background-color: #91caaea9;
+  font-family: "Josefin Sans", sans-serif;
+  background: url("https://res.cloudinary.com/andmachado/image/upload/v1618420204/brooke-lark-08bOYnH_r_E-unsplash_a8hfuh.jpg")
+    no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}

@@ -5,35 +5,33 @@ import "./HomePage.css";
 
 export default function HomePage() {
   return (
-    <div class="d-flex justify-content-end">
-      {/* // <!-- Background image --> */}
-      <div class="align-self-stretch">
-        {/* // <!-- Background image --> */}
-        <div>
-          <img
-            src="https://res.cloudinary.com/andmachado/image/upload/v1618391308/02c40f2c30dc41629a5c265394af6285_1_cv6aro.png"
-            width="80%"
-          />
-          <h1>Welcome to my nutri journal</h1>
-          <p> our purpose is to make it easy for you</p>
+    <div className="homepage">
+      <div className="flex-container">
+        <div className="item1">
+          <p>Welcome to </p>
+          <p>my nutri journal</p>
+        </div>
+        <div className="item2">
+          <p>Our mission is to make your live easier, </p>
+          <p>we know that keeping yourself health is not easy,</p>
+          <p>let us help you, tracking your food and activities!</p>
+          <p>You can do it by yourself or with your Nutritionist!</p>
+          <Link style={{ color: "black" }} to={"./login"}>
+            login
+          </Link>{" "}
           <br />
-          <div>
-            User
-            <br />
-            <Link to={"./login"}>login</Link>
-            <br />
-            <Link to={"./signup"}>signup</Link>
-            <br />
-            <br />
-          </div>
-          <div>
-            Nutritionist
-            <br />
-            <Link to={"./loginDoctor"}>login</Link>
-            <br />
-            <Link to={"./signupDoctor"}>signup</Link>
-            <br />
-          </div>
+          <Link style={{ color: "black" }} to={"./signup"}>
+            signup
+          </Link>
+          <br />
+          <p>Are your a Nutritionist?</p>
+          <Link style={{ color: "black" }} to={"./loginDoctor"}>
+            login
+          </Link>
+          <br />
+          <Link style={{ color: "black" }} to={"./signupDoctor"}>
+            signup
+          </Link>
         </div>
       </div>
     </div>
