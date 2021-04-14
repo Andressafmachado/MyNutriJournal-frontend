@@ -16,6 +16,8 @@ import { selectCompletedTasks } from "../store/completedTasks/selectors";
 import DatePicker from "react-datepicker";
 import { selectAllFood } from "../store/allFood/selectors";
 import { fetchAllFoods } from "../store/allFood/actions";
+import { selectMyDoctor } from "../store/myDoctor/selectors";
+import { fetchMyDoctor } from "../store/myDoctor/actions";
 
 export default function PlanPage() {
   const dispatch = useDispatch();
@@ -33,6 +35,12 @@ export default function PlanPage() {
     .reverse()
     .join("-");
   const allFood = useSelector(selectAllFood);
+  const myDoctor = useSelector(selectMyDoctor);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    dispatch(fetchMyDoctor(specificUser.doctorId));
+  }, [dispatch, specificUser.doctorId]);
 
   useEffect(() => {
     if (token === null) {
@@ -109,72 +117,6 @@ export default function PlanPage() {
     return dietCalories;
   }
 
-  function validateNumberOfInputs(argv) {
-    if (argv.length !== 7) {
-      console.log(`
-        You gave ${argv.length - 2} arguments(s) to the program
-
-        Please provide 5 arguments for
-
-        weight (kg),
-        height (m),
-        age (years),
-        wether you exercise daily (yes or no)
-        and your gender (m or f)
-
-        Example:
-
-        $ node index.js 82 1.79 32 yes m
-      `);
-
-      process.exit();
-    }
-  }
-
-  function validateWeightHeightAndAge(weight, height, ageOfUser, argv) {
-    if (isNaN(weight) || isNaN(height) || isNaN(ageOfUser)) {
-      console.log(`
-        Please make sure weight, height and age are numbers:
-
-        weight (kg) example: 82 | your input: ${argv[2]}
-        height (m) example 1.79 | your input: ${argv[3]}
-        age (years) example 32  | your input: ${argv[4]}
-
-        $ node index.js 82 1.79 32 yes m
-      `);
-
-      process.exit();
-    }
-
-    if (ageOfUser < 20) {
-      console.log(
-        `This BMI calculator was designed to be used by people older than 20. BMI is calculated differently for young people.`
-      );
-      process.exit();
-    }
-
-    if (weight < 30 || weight > 300) {
-      console.log(`Please, for weight provide a number between 30 and 300kg`);
-      process.exit();
-    }
-  }
-
-  function validateDailyExercise(doesUserExercise) {
-    if (doesUserExercise !== "yes" && doesUserExercise !== "no") {
-      console.log(
-        `Please specify wether you exercise daily with "yes" or "no"`
-      );
-      process.exit();
-    }
-  }
-
-  function validateGender(gender) {
-    if (gender !== "m" && gender !== "f") {
-      console.log(`Please, for gender provide "m" or "f".`);
-      process.exit();
-    }
-  }
-
   const weightInKg = specificUser.weight;
   const heightInM = specificUser.height;
   const age = specificUser.age;
@@ -187,6 +129,7 @@ export default function PlanPage() {
   const dailyCalories = calculateDailyCalories(BMR, dailyExercise);
   const weightToLoseKg = weightInKg - idealWeight;
   const dietWeeks = calculateDietWeeks(weightToLoseKg);
+  const dietWeeksString = Math.abs(dietWeeks);
   const dietCalories = calculateDietCalories(weightToLoseKg, dailyCalories);
 
   //progress
@@ -220,6 +163,18 @@ export default function PlanPage() {
           <h1>progress: {Math.floor(progressInPercent)}%</h1>
         </div>
         <div>
+          <br />
+          <img
+            src={specificUser.image}
+            wight="50%"
+            height="auto"
+            class="rounded-circle"
+            alt="patientImage"
+            width="auto"
+            height="200"
+          />
+          <br />
+          <br />
           PERSONAL DATA:
           <h1>{specificUser.name}</h1>
           <h5>email: {specificUser.email}</h5>
@@ -229,27 +184,40 @@ export default function PlanPage() {
           <h5>gender: {specificUser.gender}</h5>
           <h5>exerciseDaily: {specificUser.exerciseDaily}</h5>
         </div>
+        {myDoctor.length < 3 ? null : (
+          <div>
+            your Doctor
+            <br />
+            name:{myDoctor.name}
+            <br />
+            email: {myDoctor.email}
+          </div>
+        )}
         <br />
         <br />
         <div>
-          ************** BMI CALCULATOR **************
           <br />
-          **************** FACING THE FACTS ****************
-          <br />
-          Your BMI is {Math.round(BMI)}
-          <br />A BMI under 18.5 is considered underweight
-          <br />A BMI above 25 is considered overweight
+          <h2>FACING THE FACTS</h2>
+          Your BMI is {Math.round(BMI)}, you are{" "}
+          {BMI < 18.5 ? "underweight" : "overweight"}
           <br />
           Your ideal weight is {Math.round(idealWeight)} kg <br />
           With a normal lifestyle you burn {Math.round(dailyCalories)} calories
           a day
-          <br />
-          <br />
-          <br />
-          ********** DIET PLAN ********** <br />
+          <br /> <br />
+          <h2>DIET PLAN</h2> <br />
           If you want to reach your ideal weight of {Math.round(idealWeight)}kg.
-          <br /> Eat {Math.round(dietCalories)} calories a day For {dietWeeks}{" "}
-          weeks.
+          <br /> Eat {Math.round(dietCalories)} calories a day For{" "}
+          {dietWeeksString} weeks.
+          <br />
+          <br />
+          info:
+          <br />A BMI under 18.5 is considered underweight
+          <br />A BMI above 25 is considered overweight
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
         <br />
         <br />

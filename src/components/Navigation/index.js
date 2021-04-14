@@ -25,15 +25,13 @@ export default function Navigation() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav style={{ width: "100%" }} fill>
-          {!token ? null : user.isNutritionist ? (
+          {!user.age ? (
             <NavbarItem path="/mypatients" linkText="Home" />
           ) : (
             <NavbarItem path="/dailyprogress" linkText="Home" />
           )}
 
-          {!token ? null : user.isNutritionist ? (
-            <NavbarItem path="/signup" linkText="New Patient" />
-          ) : (
+          {!user.age ? null : (
             <NavbarItem path={`./plan/${user.id}`} linkText="My Plan" />
           )}
 

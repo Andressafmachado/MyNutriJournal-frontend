@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -7,6 +7,8 @@ import { selectUser } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
+import { selectAllDoctors } from "../../store/allDoctors/selectors";
+import { fetchAllDoctors } from "../../store/allDoctors/actions";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -21,12 +23,18 @@ export default function SignUp() {
   const history = useHistory();
   const user = useSelector(selectUser);
   const userId = user.id;
+  const allDoctors = useSelector(selectAllDoctors);
+  const [doctorId, setDoctorId] = useState();
+
+  useEffect(() => {
+    dispatch(fetchAllDoctors());
+  }, [dispatch]);
 
   function submitForm(event) {
     event.preventDefault();
 
     dispatch(
-      signUp(
+      signUp({
         name,
         email,
         password,
@@ -36,8 +44,9 @@ export default function SignUp() {
         gender,
         exerciseDaily,
         history,
-        userId
-      )
+        doctorId,
+        image,
+      })
     );
 
     setEmail("");
@@ -46,9 +55,31 @@ export default function SignUp() {
     setAge("");
     setHeight("");
     setWeight("");
-    setGender("");
-    setExerciseDaily("");
+    setImage("");
   }
+
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
+
+  const uploadImage = async (e) => {
+    console.log("triggered");
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "anqmz7kn"); //get the name at website> config> upload> (add new, mode : unsigned);
+    setLoading(true);
+
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/andmachado/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    const file = await res.json();
+    setImage(file.url);
+  };
 
   return (
     <Container>
@@ -95,7 +126,8 @@ export default function SignUp() {
           <Form.Control
             value={age}
             onChange={(event) => setAge(event.target.value)}
-            type="integer"
+            type="number"
+            step="11"
             required
           />
         </Form.Group>
@@ -104,7 +136,11 @@ export default function SignUp() {
           <Form.Control
             value={height}
             onChange={(event) => setHeight(event.target.value)}
-            type="text"
+            type="number"
+            name="price"
+            pattern="[0-9]+([\.,][0-9]+)?"
+            step="0.01"
+            title="This should be a number with up to 2 decimal places."
             required
           />
         </Form.Group>
@@ -113,33 +149,68 @@ export default function SignUp() {
           <Form.Control
             value={weight}
             onChange={(event) => setWeight(event.target.value)}
-            type="text"
+            type="number"
             required
           />
         </Form.Group>
         <Form.Group>
           <Form.Label>Gender</Form.Label>
-          {/* <select>
-         <options>m</options>
-         <options>f</options>
-           
-         </select> */}
-          <Form.Control
-            value={gender}
-            onChange={(event) => setGender(event.target.value)}
-            type="text"
-            required
-          />
+          <select
+            class="form-control form-control-sm"
+            onChange={(e) => {
+              setGender(e.target.value);
+            }}
+          >
+            <option>choose here</option>
+            <option value={"f"}>female</option>
+            <option value={"m"}>male</option>
+          </select>
         </Form.Group>
         <Form.Group>
           <Form.Label>Exercise Daily?</Form.Label>
-          <Form.Control
-            value={exerciseDaily}
-            onChange={(event) => setExerciseDaily(event.target.value)}
-            type="text"
-            required
-          />
+          <select
+            class="form-control form-control-sm"
+            onChange={(e) => {
+              setExerciseDaily(e.target.value);
+            }}
+          >
+            <option>choose here</option>
+            <option value={"no"}>no</option>
+            <option value={"yes"}>yes</option>
+          </select>
         </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Select your Nutritionist here:</Form.Label>
+
+          <select
+            class="form-control form-control-sm"
+            onChange={(e) => {
+              setDoctorId(e.target.value);
+            }}
+          >
+            <option value={10000000000}>I don't have a Nutritionist!</option>
+            {!Array.isArray(allDoctors)
+              ? null
+              : allDoctors.map((doctor) => {
+                  return (
+                    <option key={doctor.id} value={doctor.id}>
+                      {doctor.name}
+                    </option>
+                  );
+                })}
+          </select>
+        </Form.Group>
+        <div className="App">
+          <h5>Upload your profile picture</h5>
+          <input
+            type="file"
+            name="file"
+            placeholder="drag it here"
+            onChange={uploadImage}
+          />
+          <img src={image} width="50%" />
+        </div>
 
         <Form.Group className="mt-5">
           <Button variant="primary" type="submit" onClick={submitForm}>
