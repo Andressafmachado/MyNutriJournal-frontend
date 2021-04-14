@@ -136,7 +136,7 @@ export default function DailyProgressPage() {
     <div>
       <h1>Daily Progress</h1>
       <br />
-      <img src={user.image} wight="50%" height="auto" />
+      <img src={user.image} wight="500px" height="500px" />
       <h2>Welcome {user.name}</h2>
       <br />
       <br />

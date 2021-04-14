@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import Container from "react-bootstrap/Container";
-import { selectToken } from "../store/user/selectors";
+import { selectToken, selectUser } from "../store/user/selectors";
 import { addTask, fetchTasks } from "../store/Task/actions";
 import { selectTasks } from "../store/Task/selectors";
 import { fetchCompletedTasks } from "../store/completedTasks/actions";
