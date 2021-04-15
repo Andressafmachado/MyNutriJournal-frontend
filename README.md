@@ -1,3 +1,35 @@
+# My Nutri Journal
+
+This app
+
+## Demo
+
+coming soon
+
+## Features
+
+as a User:
+- Sign up and login to get a diet plan
+- add food (counting kcal)
+- add new task
+- check task as completed
+- add comments (for yourself or your nutritionist)
+- check your historic for food/task/comments
+- choose your Nutritionist from database
+
+as a Nutritionist:
+- sign up and login 
+- get all your patients
+- search by patient name
+- check each patient (personal data and diet plan)
+- check historic of each patient (food/comments/tasks)
+- add new tasks
+- check completed tasks
+- add comments for your patient
+
+
+## Goals
+
 
 
 ## Tech Stack
