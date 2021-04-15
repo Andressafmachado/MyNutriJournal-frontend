@@ -22,7 +22,7 @@ import { fetchTodayComments } from "../store/todayComments/actions";
 import { addComment } from "../store/todayComments/actions";
 import moment from "moment";
 import { selectMyDoctor } from "../store/myDoctor/selectors";
-import "./DailyProgressPage.css";
+import "./fontfamilies.css";
 import { Link } from "react-router-dom";
 
 export default function DailyProgressPage() {
@@ -69,6 +69,7 @@ export default function DailyProgressPage() {
   const end = moment(today);
   const progressInDays = end.diff(start, "days");
   const dietInDays = dietWeeks * 7;
+  const dietInDaysString = Math.abs(dietInDays);
   const progressInPercent = (progressInDays / dietInDays) * 100;
 
   function calculateBMI(weight, height) {
@@ -372,7 +373,7 @@ export default function DailyProgressPage() {
               <img
                 src={myDoctor.image}
                 class="rounded-circle"
-                alt="patientImage"
+                alt="doctorImage"
                 width="150"
                 height="150"
               />
@@ -393,8 +394,8 @@ export default function DailyProgressPage() {
           )}
         </div>
         <div style={{ margin: "33px" }} class="p-2 flex-fill bd-highlight">
-          <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>comments</h4>
-          <p>let's add some thoughts here to keep you motivated</p>
+          <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>thoughts?</h4>
+          <p> what is your mood today?</p>
           {!todayComments ? (
             <div>loading ... </div>
           ) : (

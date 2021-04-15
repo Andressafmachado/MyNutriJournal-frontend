@@ -17,11 +17,12 @@ export default function Navigation() {
 
   return (
     <Navbar style={{ backgroundColor: "#8cbaa3" }} expand="lg">
-      {/* <Navbar.Brand
-      // as={NavLink} to="/"
+      <Navbar.Brand
+        style={{ fontFamily: "New Tegomin", fontSize: "33px" }}
+        // as={NavLink} to="/"
       >
         My Nutri Journal
-      </Navbar.Brand> */}
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav style={{ width: "100%" }} fill>

@@ -4,7 +4,7 @@ import { logOut } from "../../store/user/actions";
 import Button from "react-bootstrap/Button";
 import { selectUser } from "../../store/user/selectors";
 import Nav from "react-bootstrap/Nav";
-
+// import "./fontfamilies.css";
 export default function LoggedIn() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -17,7 +17,7 @@ export default function LoggedIn() {
           backgroundColor: "#8cbaa3",
         }}
       >
-        {user.email}
+        hi {user.name}
       </Nav.Item>
       <Button
         style={{
