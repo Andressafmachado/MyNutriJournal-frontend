@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { login } from "../../store/user/actions";
-
+import "./index.css";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
@@ -26,8 +26,9 @@ export default function SignUp() {
   }
 
   return (
-    <Container>
-      <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
+    // <Container className="login">
+    <div className="login">
+      <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <h5>Login</h5>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -51,25 +52,21 @@ export default function SignUp() {
           />
         </Form.Group>
         <Form.Group className="mt-5">
-          <Button variant="primary" type="submit" onClick={submitForm}>
+          <Button variant="light" type="submit" onClick={submitForm}>
             Log in
           </Button>
         </Form.Group>
         <br />
 
         <h6>
-          <Link to="/signup" style={{ textAlign: "center" }}>
+          <Link to="/signup" style={{ textAlign: "center", color: "black" }}>
             {" "}
             sign up here
           </Link>{" "}
         </h6>
         <br />
-        <h6>
-          Are you a nutritionist?
-          <Link to="/logindoctor"> login</Link> ou
-          <Link to="/signupdoctor"> sign up here</Link>{" "}
-        </h6>
       </Form>
-    </Container>
+      {/* // </Container> */}
+    </div>
   );
 }

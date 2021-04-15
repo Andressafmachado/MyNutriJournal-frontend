@@ -41,38 +41,71 @@ export default function MyPatients() {
   };
 
   return (
-    <div>
+    <div style={{ fontFamily: "Josefin Sans " }}>
+      <div style={{ padding: "5%" }} class="d-flex bd-highlight">
+        <div style={{ border: "" }} class="p-2 flex-fill bd-highlight"></div>
+        <div
+          style={{
+            textAlign: "center",
+          }}
+          class="p-2 flex-fill bd-highlight"
+        >
+          <h1 style={{ fontFamily: "Limelight", marginTop: "5%" }}>
+            Welcome {`${user.name}`}
+          </h1>
+          <br />
+          <h4>You have {myPatients.length} patients.</h4>
+        </div>
+        <div class="p-2 flex bd-highlight">
+          <img
+            src={user.image}
+            // wight="50%"
+            // height="auto"
+            class="rounded-circle"
+            alt="patientImage"
+            width="auto"
+            height="300"
+          />
+          <br />
+        </div>
+      </div>
+
+      <div class="d-flex bd-highlight">
+        <div class="p-2 flex-fill bd-highlight"></div>
+        <div class="p-2 flex-fill bd-highlight">
+          <div style={{ marginLeft: "35px" }}>search for patient:</div>
+          <input
+            style={{ marginLeft: "35px" }}
+            value={searchText}
+            onChange={(e) => set_searchText(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </div>
+        <div class="p-2 flex-fill bd-highlight"></div>
+      </div>
+      <div class="d-flex bd-highlight">
+        <div class="p-2 flex-fill bd-highlight"></div>
+        <div
+          style={{ alignItems: "center" }}
+          class="p-2 flex-fill bd-highlight"
+        >
+          {found.length < 1 ? (
+            <p> Patients not found</p>
+          ) : (
+            found.map((patient) => {
+              return (
+                <div key={patient.id}>
+                  <Link to={`./plan/${patient.id}`}>
+                    <PatientCart patient={patient} />
+                  </Link>
+                </div>
+              );
+            })
+          )}
+        </div>
+        <div class="p-2 flex-fill bd-highlight"></div>
+      </div>
       <br />
-      <img
-        src={user.image}
-        wight="50%"
-        height="auto"
-        class="rounded-circle"
-        alt="patientImage"
-        width="auto"
-        height="200"
-      />
-      <h1>Welcome {`${user.name}`}</h1> <br />
-      <br />
-      <div>search for patient:</div>
-      <input
-        value={searchText}
-        onChange={(e) => set_searchText(e.target.value)}
-      />
-      <button type="submit">Search</button>
-      {found?.length < 1 ? (
-        <p> Patients not found!</p>
-      ) : (
-        found.map((patient) => {
-          return (
-            <div key={patient.id}>
-              <Link to={`./plan/${patient.id}`}>
-                <PatientCart patient={patient} />
-              </Link>
-            </div>
-          );
-        })
-      )}
     </div>
   );
 }

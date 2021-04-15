@@ -3,10 +3,10 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { loginDoctor } from "../store/user/actions";
-
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
+import "./Login/index.css";
 
 export default function LoginDoctor() {
   const [email, setEmail] = useState("");
@@ -25,9 +25,12 @@ export default function LoginDoctor() {
   }
 
   return (
-    <Container>
-      <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
-        <h1 className="mt-5 mb-5">Welcome Doctor</h1>
+    // <Container className="login">
+    <div className="login">
+      <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
+        <h1 className="mt-5 mb-5" style={{ fontFamily: "Limelight" }}>
+          Welcome Doctor
+        </h1>
         <h5>Login</h5>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -51,15 +54,23 @@ export default function LoginDoctor() {
           />
         </Form.Group>
         <Form.Group className="mt-5">
-          <Button variant="primary" type="submit" onClick={submitForm}>
+          <Button
+            style={{ backgroundColor: "#8cbaa3", border: "black" }}
+            type="submit"
+            onClick={submitForm}
+          >
             Log in
           </Button>
         </Form.Group>
         <h6>
           Don't have an account yet?
-          <Link to="/signupdoctor"> sign up here</Link>{" "}
+          <Link style={{ color: "black" }} to="/signupdoctor">
+            {" "}
+            sign up here
+          </Link>{" "}
         </h6>
       </Form>
-    </Container>
+      {/* </Container> */}
+    </div>
   );
 }

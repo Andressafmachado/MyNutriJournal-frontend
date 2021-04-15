@@ -22,6 +22,8 @@ import { fetchTodayComments } from "../store/todayComments/actions";
 import { addComment } from "../store/todayComments/actions";
 import moment from "moment";
 import { selectMyDoctor } from "../store/myDoctor/selectors";
+import "./fontfamilies.css";
+import { Link } from "react-router-dom";
 
 export default function DailyProgressPage() {
   const dispatch = useDispatch();
@@ -67,6 +69,7 @@ export default function DailyProgressPage() {
   const end = moment(today);
   const progressInDays = end.diff(start, "days");
   const dietInDays = dietWeeks * 7;
+  const dietInDaysString = Math.abs(dietInDays);
   const progressInPercent = (progressInDays / dietInDays) * 100;
 
   function calculateBMI(weight, height) {
@@ -226,164 +229,223 @@ export default function DailyProgressPage() {
   }
 
   return (
-    <div>
-      <h1>progress: {Math.floor(progressInPercent)}%</h1>
-      <h1>Daily Progress</h1>
-      <br />
-      <img src={user.image} wight="500px" height="500px" />
-      <h2>Welcome {user.name}</h2>
-      <br />
-      <br />
-      <br />
-      <div style={{ fontFamily: "Linguini", backgroundColor: "#70AFC6" }}>
-        <h3> {sentence.text}</h3>
-        <h5> {sentence.author}</h5>
-      </div>
-
-      <br />
-      {user.isDoctor ? null : (
-        <div>
-          <img
-            src={myDoctor.image}
-            class="rounded-circle"
-            alt="patientImage"
-            width="75"
-            height="75"
-          />
-          your Doctor
-          <br />
-          name:{myDoctor.name}
-          <br />
-          email: {myDoctor.email}
+    <div style={{ fontFamily: "Josefin Sans " }}>
+      <div style={{ margin: "2% " }} class="d-flex bd-highlight">
+        <div class="d-flex align-content-end flex-wrap ">
+          <img src={user.image} wight="300px" height="300px" />
         </div>
-      )}
-      <br />
-      <div>
-        <h2>comments</h2>
-        {!todayComments ? (
-          <div>loading ... </div>
-        ) : (
-          todayComments.map((comment) => {
-            return (
-              <div>
-                {comment.name} said:
-                <br />
-                {comment.content}
-                <br />
-                <br />
-              </div>
-            );
-          })
-        )}
-
-        <input
-          style={{ border: "solid 1px", width: 150 }}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <br />
-        <button
-          type="button"
-          class="btn btn-primary btn-sm"
-          variant="primary"
-          type="submit"
-          onClick={submitFormComment}
-        >
-          add
-        </button>
+        <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
+          <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
+            Daily Progress
+          </h1>
+          <h2>Welcome {user.name}</h2>
+          <br /> <br /> <br />
+          <h5 style={{ fontFamily: "New Tegomin" }}> {sentence.text}</h5>
+          <h6 style={{ fontFamily: "New Tegomin" }}> {sentence.author}</h6>
+        </div>
       </div>
-      <div>
-        <h4>Your tasks for today:</h4>
-        {allTasks < 1 ? <p>You don't have tasks for today!</p> : null}
-        {!allTasks ? (
-          <p>You don't have tasks for today!</p>
-        ) : (
-          allTasks.map((task) => {
-            return (
-              <div>
-                <div
-                  value={name}
-                  style={{
-                    backgroundColor: isCompleted(task.name)
-                      ? "green  "
-                      : "yellow",
-                    width: 300,
-                    padding: 10,
-                    border: "solid gray 1px",
-                  }}
-                  key={task.id}
-                >
-                  {task.name}{" "}
-                  {isCompleted(task.name) ? null : (
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(addCompletedTask(task.name, userId));
-                      }}
-                      type="button"
-                      class="btn btn-primary btn-sm"
-                      variant="primary"
-                      type="submit"
-                      value={name}
-                    >
-                      Done?
-                    </button>
-                  )}
-                </div>{" "}
-              </div>
-            );
-          })
-        )}
-      </div>
-      <br />
-      <br />
-      <h1>new item</h1>
-      <p>100 ml/100 gram</p>
-      <input
-        value={searchText}
-        onChange={(e) => set_searchText(e.target.value)}
-      />
-      <button onClick={search} type="button" class="btn btn-primary btn-sm">
-        search
-      </button>
+      <div class="d-flex bd-highlight">
+        <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
+          <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>food</h1>
 
-      {searchState.status === "idle" && <div>Type to search</div>}
-      {searchState.status === "loading" && <div>Loading...</div>}
-
-      <div>
-        {!item[0] ? null : (
-          <div>
-            <img src={item[0].food.image} style={{ width: 150 }} />
-            <br />
-            {item[0].food.label}, kcal:
-            {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
-            <br />
-            <button
-              type="button"
-              class="btn btn-primary btn-sm"
-              variant="primary"
-              type="submit"
-              onClick={submitForm}
+          <h4>Your should eat {Math.round(dietCalories)} a day</h4>
+          <br />
+          {!food
+            ? null
+            : food.map((food, index) => {
+                return (
+                  <div key={index}>
+                    {food.item}, kcal: {food.calories}
+                  </div>
+                );
+              })}
+          <br />
+          {sum < dietCalories ? (
+            <h5
+              style={{ backgroundColor: "#8cbaa3", padding: 5, width: "50%" }}
             >
-              add
-            </button>
-          </div>
-        )}
-      </div>
-      <br />
-      <div>
-        <h3>Today food</h3>
-        {!food
-          ? null
-          : food.map((food, index) => {
+              {" "}
+              total calories today {sum}
+            </h5>
+          ) : (
+            <h5
+              style={{ backgroundColor: "#f58e56", padding: 5, width: "50%" }}
+            >
+              {" "}
+              total calories today {sum}
+            </h5>
+          )}
+        </div>
+        <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
+          <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>tasks</h1>
+          <h4>Your tasks for today:</h4>
+          {allTasks < 1 ? <p>You don't have tasks for today!</p> : null}
+          {!allTasks ? (
+            <p>You don't have tasks for today!</p>
+          ) : (
+            allTasks.map((task) => {
               return (
-                <div key={index}>
-                  {food.item}, kcal: {food.calories}
+                <div>
+                  <div
+                    value={name}
+                    style={{
+                      backgroundColor: isCompleted(task.name)
+                        ? "#8cbaa3"
+                        : "#f58e56",
+                      width: 300,
+                      padding: 10,
+                      border: "solid gray 1px",
+                    }}
+                    key={task.id}
+                  >
+                    {task.name}{" "}
+                    {isCompleted(task.name) ? null : (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          dispatch(addCompletedTask(task.name, userId));
+                        }}
+                        type="button"
+                        class="btn btn-light btn-sm"
+                        style={{ backgroundColor: "#feb594" }}
+                        type="submit"
+                        value={name}
+                      >
+                        Done?
+                      </button>
+                    )}
+                  </div>{" "}
                 </div>
               );
-            })}
+            })
+          )}
+        </div>
       </div>
-      <h2> total calories {sum}</h2>
+
+      <div class="d-flex bd-highlight">
+        <div class="p-2 flex-fill bd-highlight">
+          <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
+            <h4>let's add some food here</h4>
+            <p>100 ml/100 gram</p>
+            <input
+              value={searchText}
+              onChange={(e) => set_searchText(e.target.value)}
+            />
+            <button
+              onClick={search}
+              type="button"
+              class="btn btn-light btn-sm"
+              style={{ backgroundColor: "#cfe0d8" }}
+            >
+              search
+            </button>
+
+            {searchState.status === "idle" && <div>Type to search</div>}
+            {searchState.status === "loading" && <div>Loading...</div>}
+
+            <div>
+              {!item[0] ? null : (
+                <div>
+                  <img src={item[0].food.image} style={{ width: 150 }} />
+                  <br />
+                  {item[0].food.label}, kcal:
+                  {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
+                  <br />
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    variant="light"
+                    type="submit"
+                    onClick={submitForm}
+                  >
+                    add
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex bd-highlight">
+        <div class="p-2 flex bd-highlight">
+          {!user.doctorId > 0 ? null : (
+            <div style={{ margin: "50px" }}>
+              <img
+                src={myDoctor.image}
+                class="rounded-circle"
+                alt="doctorImage"
+                width="150"
+                height="150"
+              />
+            </div>
+          )}
+        </div>
+        <div class="p-2 flex bd-highlight">
+          {!user.doctorId > 0 ? null : (
+            <div style={{ margin: "33px" }}>
+              <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
+                Your Nutritionist
+              </h4>
+              <br />
+              name:{myDoctor.name}
+              <br />
+              email: {myDoctor.email}
+            </div>
+          )}
+        </div>
+        <div style={{ margin: "33px" }} class="p-2 flex-fill bd-highlight">
+          <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>thoughts?</h4>
+          <p> what is your mood today?</p>
+          {!todayComments ? (
+            <div>loading ... </div>
+          ) : (
+            todayComments.map((comment) => {
+              return (
+                <div
+                  style={{
+                    // backgroundColor: "gray",
+                    margin: "5px",
+                    padding: "5px",
+                    width: "50%",
+                  }}
+                >
+                  <div> {comment.name} said:</div>
+
+                  <div style={{ fontSize: 22 }}>{comment.content}</div>
+                </div>
+              );
+            })
+          )}
+
+          <textarea
+            style={{ border: "solid 1px", width: 150 }}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <br />
+          <button
+            type="button"
+            class="btn btn-light btn-sm"
+            style={{ backgroundColor: "#cfe0d8" }}
+            type="submit"
+            onClick={submitFormComment}
+          >
+            add
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <footer class="bg-light text-center text-lg-start">
+          <div class="text-center p-3" style={{ backgroundColor: "#c5dbd3" }}>
+            © 2021 Copyright: AndressaMachado
+            {/* <a class="text-dark" href="https://mdbootstrap.com/"
+            >
+              AndressaMachado
+            </a> */}
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
 import { selectAllDoctors } from "../../store/allDoctors/selectors";
 import { fetchAllDoctors } from "../../store/allDoctors/actions";
+import "../Login/index.css";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -82,8 +83,9 @@ export default function SignUp() {
   };
 
   return (
-    <Container>
-      <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
+    <div className="login">
+      {/* // <Container className="login"> */}
+      <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <div>
           <h1 className="mt-5 mb-5">Signup and create a Plan!</h1>
           <h5>Add your personal information, we do the math for you!</h5>
@@ -213,14 +215,18 @@ export default function SignUp() {
         </div>
 
         <Form.Group className="mt-5">
-          <Button variant="primary" type="submit" onClick={submitForm}>
+          <Button variant="light" type="submit" onClick={submitForm}>
             Create My Plan
           </Button>
         </Form.Group>
         <p>
-          Already have an account? <Link to="/">Click here to log in</Link>
+          Already have an account?{" "}
+          <Link style={{ color: "black" }} to="/">
+            Click here to log in
+          </Link>
         </p>
       </Form>
-    </Container>
+      {/* </Container> */}
+    </div>
   );
 }

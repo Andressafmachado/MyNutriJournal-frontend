@@ -3,25 +3,26 @@ import Container from "react-bootstrap/Container";
 
 export default function PatientCart(patient) {
   return (
-    <Container>
-      <div
-        style={{
-          border: "solid",
-          width: "300px",
-          padding: 20,
-          margin: 20,
-        }}
-      >
+    <div
+      style={{
+        border: "solid  #8cbaa3 1px",
+        padding: 20,
+        margin: 10,
+        color: "black",
+      }}
+    >
+      {" "}
+      <h3>
         {" "}
         <img
           src={patient.patient.image}
           class="rounded-circle"
           alt="patientImage"
-          width="75"
-          height="75"
+          width="100"
+          height="100"
         />{" "}
         {patient.patient.name}
-      </div>
-    </Container>
+      </h3>
+    </div>
   );
 }
