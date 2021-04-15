@@ -25,7 +25,6 @@ font-family: 'Limelight', cursive; */
 }
 
 .item1 {
-  /* background-color: blue; */
   padding-top: 100px;
   padding-bottom: 50px;
 
@@ -39,7 +38,6 @@ font-family: 'Limelight', cursive; */
 }
 
 .item2 {
-  /* background-color: rgb(114, 19, 109); */
   font-family: "Josefin Sans", sans-serif;
   font-size: 22px;
   width: 60%;
@@ -52,7 +50,6 @@ font-family: 'Limelight', cursive; */
 .item3 {
   padding-top: 10%;
   justify-content: center;
-  /* background-color: rgb(151, 52, 52); */
 
   width: 60%;
   align-self: flex-end;

@@ -19,19 +19,22 @@ export default function HomePage() {
           <Link style={{ color: "black" }} to={"./login"}>
             login
           </Link>{" "}
-          <br />
+          /
           <Link style={{ color: "black" }} to={"./signup"}>
             signup
           </Link>
-          <br />
-          <p>Are your a Nutritionist?</p>
-          <Link style={{ color: "black" }} to={"./loginDoctor"}>
-            login
-          </Link>
-          <br />
-          <Link style={{ color: "black" }} to={"./signupDoctor"}>
-            signup
-          </Link>
+          <br /> <br />
+          <p>
+            Are your a Nutritionist?
+            <br />
+            <Link style={{ color: "black" }} to={"./loginDoctor"}>
+              login
+            </Link>
+            /
+            <Link style={{ color: "black" }} to={"./signupDoctor"}>
+              signup
+            </Link>
+          </p>
         </div>
       </div>
     </div>

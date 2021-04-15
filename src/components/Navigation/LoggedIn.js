@@ -17,7 +17,9 @@ export default function LoggedIn() {
           backgroundColor: "#8cbaa3",
         }}
       >
-        hi {user.name}
+        {user.isDoctor
+          ? `${user.name} Nutritionist`
+          : ` ${user.name}'s Journal`}
       </Nav.Item>
       <Button
         style={{
