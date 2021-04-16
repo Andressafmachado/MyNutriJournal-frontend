@@ -94,14 +94,19 @@ export default function SignupDoctor() {
         <img src={image} width="50%" />
 
         <Form.Group className="mt-5">
-          <Button variant="light" type="submit" onClick={submitForm}>
+          <Button
+            style={{ backgroundColor: "#8cbaa3", color: "white" }}
+            variant="light"
+            type="submit"
+            onClick={submitForm}
+          >
             Sign up
           </Button>
         </Form.Group>
         <p>
           Already have an account?{" "}
           <Link to="/logindoctor" style={{ color: "black" }}>
-            Click here to log in
+            Click here to login
           </Link>
         </p>
       </Form>

@@ -63,7 +63,7 @@ export default function LoginDoctor() {
           </Button>
         </Form.Group>
         <h6>
-          Don't have an account yet?
+          Don't you have an account yet?
           <Link style={{ color: "black" }} to="/signupdoctor">
             {" "}
             sign up here

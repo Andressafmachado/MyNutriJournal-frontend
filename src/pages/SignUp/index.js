@@ -88,8 +88,12 @@ export default function SignUp() {
       <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <div>
           <h1 className="mt-5 mb-5">Signup and create a Plan!</h1>
-          <h5>Add your personal information, we do the math for you!</h5>
+          <h4>
+            Add your personal information, <br />
+            we do the math for you!
+          </h4>
         </div>
+        <br />
 
         <Form.Group controlId="formBasicName">
           <Form.Label>Name</Form.Label>
@@ -215,13 +219,18 @@ export default function SignUp() {
         </div>
 
         <Form.Group className="mt-5">
-          <Button variant="light" type="submit" onClick={submitForm}>
+          <Button
+            variant="light"
+            type="submit"
+            onClick={submitForm}
+            style={{ backgroundColor: "#8cbaa3", color: "white" }}
+          >
             Create My Plan
           </Button>
         </Form.Group>
         <p>
           Already have an account?{" "}
-          <Link style={{ color: "black" }} to="/">
+          <Link style={{ color: "black" }} to="/login">
             Click here to log in
           </Link>
         </p>
