@@ -26,6 +26,7 @@ export default function SignUp() {
   const userId = user.id;
   const allDoctors = useSelector(selectAllDoctors);
   const [doctorId, setDoctorId] = useState();
+  console.log("doctorid", typeof doctorId);
 
   useEffect(() => {
     dispatch(fetchAllDoctors());
@@ -195,7 +196,7 @@ export default function SignUp() {
               setDoctorId(e.target.value);
             }}
           >
-            <option value={10000000000}>I don't have a Nutritionist!</option>
+            <option>I don't have a Nutritionist!</option>
             {!Array.isArray(allDoctors)
               ? null
               : allDoctors.map((doctor) => {

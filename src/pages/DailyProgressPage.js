@@ -70,7 +70,7 @@ export default function DailyProgressPage() {
   const progressInDays = end.diff(start, "days");
   const dietInDays = dietWeeks * 7;
   const dietInDaysString = Math.abs(dietInDays);
-  const progressInPercent = (progressInDays / dietInDays) * 100;
+  const progressInPercent = (progressInDays / dietInDaysString) * 100;
 
   function calculateBMI(weight, height) {
     return weight / (height * height);
@@ -243,6 +243,29 @@ export default function DailyProgressPage() {
           <h5 style={{ fontFamily: "New Tegomin" }}> {sentence.text}</h5>
           <h6 style={{ fontFamily: "New Tegomin" }}> {sentence.author}</h6>
         </div>
+
+        <div style={{ margin: "2%" }} class="p-2 flex-fill bd-highlight">
+          <div>
+            <h1
+              style={{
+                fontFamily: "Limelight",
+                paddingTop: 22,
+
+                textAlign: "center",
+              }}
+            >
+              Progress {Math.floor(progressInPercent)}%
+            </h1>
+            <Link to={`./plan/${userId}`}>
+              {" "}
+              <p style={{ color: "black", textAlign: "center" }}>
+                check my Plan
+              </p>
+            </Link>
+          </div>
+
+          <br />
+        </div>
       </div>
       <div class="d-flex bd-highlight">
         <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
@@ -353,8 +376,8 @@ export default function DailyProgressPage() {
                   <br />
                   <button
                     type="button"
-                    class="btn btn-primary btn-sm"
-                    variant="light"
+                    class="btn btn-light btn-sm"
+                    style={{ backgroundColor: "#cfe0d8" }}
                     type="submit"
                     onClick={submitForm}
                   >
@@ -374,7 +397,7 @@ export default function DailyProgressPage() {
                 src={myDoctor.image}
                 class="rounded-circle"
                 alt="doctorImage"
-                width="150"
+                width="auto"
                 height="150"
               />
             </div>

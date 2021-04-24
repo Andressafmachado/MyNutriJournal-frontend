@@ -52,6 +52,17 @@ export default function SignupDoctor() {
     <div className="login">
       <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <div>
+          <h1 className="mt-5 mb-5" style={{ fontFamily: "Limelight" }}>
+            Welcome Nutri
+          </h1>
+          <p>
+            This app is going to help you track your patients and their
+            activities. <br />
+            Your patients can sign up, choose you as Nutritionist
+            <br />
+            and you will be connected!
+          </p>
+
           <h1> Sign up</h1>
         </div>
 
@@ -110,7 +121,6 @@ export default function SignupDoctor() {
           </Link>
         </p>
       </Form>
-      {/* </Container> */}
     </div>
   );
 }

@@ -106,6 +106,11 @@ export default function MyPatients() {
         <div class="p-2 flex-fill bd-highlight"></div>
       </div>
       <br />
+      <footer class="bg-light text-center text-lg-start">
+        <div class="text-center p-3" style={{ backgroundColor: "#c5dbd3" }}>
+          © 2021 Copyright: AndressaMachado
+        </div>
+      </footer>
     </div>
   );
 }
