@@ -52,6 +52,17 @@ export default function SignupDoctor() {
     <div className="login">
       <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <div>
+          <h1 className="mt-5 mb-5" style={{ fontFamily: "Limelight" }}>
+            Welcome Nutri
+          </h1>
+          <p>
+            This app is going to help you track your patients and their
+            activities. <br />
+            Your patients can sign up, choose you as Nutritionist
+            <br />
+            and you will be connected!
+          </p>
+
           <h1> Sign up</h1>
         </div>
 
@@ -94,18 +105,22 @@ export default function SignupDoctor() {
         <img src={image} width="50%" />
 
         <Form.Group className="mt-5">
-          <Button variant="light" type="submit" onClick={submitForm}>
+          <Button
+            style={{ backgroundColor: "#8cbaa3", color: "white" }}
+            variant="light"
+            type="submit"
+            onClick={submitForm}
+          >
             Sign up
           </Button>
         </Form.Group>
         <p>
           Already have an account?{" "}
           <Link to="/logindoctor" style={{ color: "black" }}>
-            Click here to log in
+            Click here to login
           </Link>
         </p>
       </Form>
-      {/* </Container> */}
     </div>
   );
 }

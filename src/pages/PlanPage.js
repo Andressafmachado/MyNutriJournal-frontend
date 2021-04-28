@@ -70,7 +70,7 @@ export default function PlanPage() {
   const progressInDays = end.diff(start, "days");
   const dietInDays = dietWeeks * 7;
   const dietInDaysString = Math.abs(dietInDays);
-  const progressInPercent = (progressInDays / dietInDays) * 100;
+  const progressInPercent = (progressInDays / dietInDaysString) * 100;
 
   useEffect(() => {
     dispatch(fetchMyDoctor(specificUser.doctorId));
@@ -556,7 +556,7 @@ export default function PlanPage() {
                 src={myDoctor.image}
                 class="rounded-circle"
                 alt="patientImage"
-                width="150"
+                width="auto"
                 height="150"
               />
             </div>
@@ -569,7 +569,7 @@ export default function PlanPage() {
                 Your Nutritionist
               </h4>
               <br />
-              name:{myDoctor.name}
+              {myDoctor.name}
               <br />
               email: {myDoctor.email}
             </div>

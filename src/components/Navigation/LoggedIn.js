@@ -15,6 +15,7 @@ export default function LoggedIn() {
         style={{
           padding: ".5rem 1rem",
           backgroundColor: "#8cbaa3",
+          fontFamily: "New Tegomin",
         }}
       >
         {user.isDoctor

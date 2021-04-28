@@ -6,8 +6,8 @@ export default function PatientCart(patient) {
     <div
       style={{
         border: "solid  #8cbaa3 1px",
-        padding: 20,
-        margin: 10,
+        padding: 10,
+        margin: 5,
         color: "black",
       }}
     >
@@ -18,7 +18,7 @@ export default function PatientCart(patient) {
           src={patient.patient.image}
           class="rounded-circle"
           alt="patientImage"
-          width="100"
+          width="auto"
           height="100"
         />{" "}
         {patient.patient.name}

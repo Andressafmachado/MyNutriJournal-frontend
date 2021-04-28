@@ -25,7 +25,7 @@ export default function HomePage() {
           </Link>
           <br /> <br />
           <p>
-            Are your a Nutritionist?
+            Nutritionists are welcome as well
             <br />
             <Link style={{ color: "black" }} to={"./loginDoctor"}>
               login

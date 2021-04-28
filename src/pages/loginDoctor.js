@@ -29,7 +29,7 @@ export default function LoginDoctor() {
     <div className="login">
       <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <h1 className="mt-5 mb-5" style={{ fontFamily: "Limelight" }}>
-          Welcome Doctor
+          Welcome Nutri
         </h1>
         <h5>Login</h5>
         <Form.Group controlId="formBasicEmail">
@@ -63,7 +63,7 @@ export default function LoginDoctor() {
           </Button>
         </Form.Group>
         <h6>
-          Don't have an account yet?
+          Don't you have an account yet?
           <Link style={{ color: "black" }} to="/signupdoctor">
             {" "}
             sign up here
