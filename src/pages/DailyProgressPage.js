@@ -1,6 +1,5 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { addFood } from "../store/Food/actions";
 import { fetchFoods } from "../store/Food/actions";
@@ -23,6 +22,7 @@ import { addComment } from "../store/todayComments/actions";
 import moment from "moment";
 import { selectMyDoctor } from "../store/myDoctor/selectors";
 import "./fontfamilies.css";
+import "./DailyProgress.css";
 import { Link } from "react-router-dom";
 
 export default function DailyProgressPage() {
@@ -63,8 +63,6 @@ export default function DailyProgressPage() {
 
   //progress
   const initialDate = specificUser.createdAt;
-  // const date = new Date();
-  // const today = date.toLocaleDateString().split("/").reverse().join("-");
   const start = moment(initialDate);
   const end = moment(today);
   const progressInDays = end.diff(start, "days");
@@ -146,11 +144,7 @@ export default function DailyProgressPage() {
   }, [dispatch, specificUser.id, today]);
 
   const search = async () => {
-    // console.log("TODO search movies for:", searchText);
-    // collect the searchterm in our input field
     setSearchState({ status: "loading" });
-    // This is to encode characters that have special meaning in urls
-    // const encodedSearch = encodeURIComponent(searchText);
 
     const response = await Axios.get(
       `https://edamam-food-and-grocery-database.p.rapidapi.com/parser`,
@@ -166,8 +160,6 @@ export default function DailyProgressPage() {
     );
 
     const item = response.data.hints;
-    // After fetching the data we need to set it to some state so we can use it later
-    // to render
     setSearchState({ status: "done", data: item });
     setItem(item);
   };
@@ -213,7 +205,7 @@ export default function DailyProgressPage() {
     return taskCompleted ? true : false;
   };
 
-  //ADD NEW COMMENT
+  //add new comments
   function submitFormComment(event) {
     event.preventDefault();
     dispatch(
@@ -229,7 +221,7 @@ export default function DailyProgressPage() {
   }
 
   return (
-    <div style={{ fontFamily: "Josefin Sans " }}>
+    <div className="dailyProgress">
       <div style={{ margin: "2% " }} class="d-flex bd-highlight">
         <div class="d-flex align-content-end flex-wrap ">
           <img src={user.image} wight="300px" height="300px" />
@@ -245,7 +237,7 @@ export default function DailyProgressPage() {
         </div>
 
         <div style={{ margin: "2%" }} class="p-2 flex-fill bd-highlight">
-          <div>
+          <div style={{}}>
             <h1
               style={{
                 fontFamily: "Limelight",
@@ -258,7 +250,12 @@ export default function DailyProgressPage() {
             </h1>
             <Link to={`./plan/${userId}`}>
               {" "}
-              <p style={{ color: "black", textAlign: "center" }}>
+              <p
+                style={{
+                  color: "black",
+                  textAlign: "center",
+                }}
+              >
                 check my Plan
               </p>
             </Link>
@@ -268,37 +265,120 @@ export default function DailyProgressPage() {
         </div>
       </div>
       <div class="d-flex bd-highlight">
-        <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
-          <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>food</h1>
+        <div
+          style={{
+            margin: "2% ",
+            backgroundColor: "#d1e3da",
+            borderRadius: 5,
+            width: "10%",
+          }}
+          class="p-2 flex-fill bd-highlight"
+        >
+          <h1
+            style={{
+              fontFamily: "Limelight",
+              paddingTop: 22,
+              backgroundColor: "#d1e3da",
+              borderRadius: 5,
+              paddingLeft: 15,
+            }}
+          >
+            food
+          </h1>
 
-          <h4>Your should eat {Math.round(dietCalories)} a day</h4>
-          <br />
-          {!food
-            ? null
-            : food.map((food, index) => {
-                return (
-                  <div key={index}>
-                    {food.item}, kcal: {food.calories}
-                  </div>
-                );
-              })}
-          <br />
-          {sum < dietCalories ? (
-            <h5
-              style={{ backgroundColor: "#8cbaa3", padding: 5, width: "50%" }}
-            >
-              {" "}
-              total calories today {sum}
-            </h5>
-          ) : (
-            <h5
-              style={{ backgroundColor: "#f58e56", padding: 5, width: "50%" }}
-            >
-              {" "}
-              total calories today {sum}
-            </h5>
-          )}
+          <div
+            style={{
+              backgroundColor: "#f3f8f5",
+              paddingLeft: 15,
+              borderRadius: 5,
+              paddingTop: 10,
+            }}
+          >
+            <h6>Your should eat {Math.round(dietCalories)} a day</h6>
+            <br />
+            {!food
+              ? null
+              : food.map((food, index) => {
+                  return (
+                    <div key={index}>
+                      {food.item}, kcal: {food.calories}
+                    </div>
+                  );
+                })}
+            <br />
+            {sum < dietCalories ? (
+              <h5
+                style={{
+                  backgroundColor: "#8cbaa3",
+                  padding: 5,
+                  width: "50%",
+                  borderRadius: 5,
+                }}
+              >
+                {" "}
+                total calories today {sum}
+              </h5>
+            ) : (
+              <h5
+                style={{
+                  backgroundColor: "#f58e56",
+                  padding: 5,
+                  width: "50%",
+                  borderRadius: 5,
+                }}
+              >
+                {" "}
+                total calories today {sum}
+              </h5>
+            )}
+
+            <div class="p-2 flex-fill bd-highlight">
+              <div style={{}} class="p-2 flex-fill bd-highlight">
+                {/* <h4>let's add some food here</h4> */}
+
+                <input
+                  value={searchText}
+                  onChange={(e) => set_searchText(e.target.value)}
+                  placeholder="type to search"
+                  style={{}}
+                />
+                <button
+                  onClick={search}
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  style={{ backgroundColor: "#cfe0d8" }}
+                >
+                  search
+                </button>
+                <p style={{ fontSize: 10 }}>100 ml/100 gram</p>
+                {searchState.status === "idle" && <div></div>}
+                {searchState.status === "loading" && <div>Loading...</div>}
+
+                <div>
+                  {!item[0] ? null : (
+                    <div>
+                      <img src={item[0].food.image} style={{ width: 150 }} />
+                      <br />
+                      {item[0].food.label}, kcal:
+                      {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
+                      <br />
+                      <button
+                        type="button"
+                        class="btn btn-light btn-sm"
+                        style={{ backgroundColor: "#cfe0d8" }}
+                        type="submit"
+                        onClick={submitForm}
+                      >
+                        add
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
           <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>tasks</h1>
           <h4>Your tasks for today:</h4>
@@ -345,50 +425,6 @@ export default function DailyProgressPage() {
         </div>
       </div>
 
-      <div class="d-flex bd-highlight">
-        <div class="p-2 flex-fill bd-highlight">
-          <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
-            <h4>let's add some food here</h4>
-            <p>100 ml/100 gram</p>
-            <input
-              value={searchText}
-              onChange={(e) => set_searchText(e.target.value)}
-            />
-            <button
-              onClick={search}
-              type="button"
-              class="btn btn-light btn-sm"
-              style={{ backgroundColor: "#cfe0d8" }}
-            >
-              search
-            </button>
-
-            {searchState.status === "idle" && <div>Type to search</div>}
-            {searchState.status === "loading" && <div>Loading...</div>}
-
-            <div>
-              {!item[0] ? null : (
-                <div>
-                  <img src={item[0].food.image} style={{ width: 150 }} />
-                  <br />
-                  {item[0].food.label}, kcal:
-                  {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
-                  <br />
-                  <button
-                    type="button"
-                    class="btn btn-light btn-sm"
-                    style={{ backgroundColor: "#cfe0d8" }}
-                    type="submit"
-                    onClick={submitForm}
-                  >
-                    add
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="d-flex bd-highlight">
         <div class="p-2 flex bd-highlight">
           {!user.doctorId > 0 ? null : (
