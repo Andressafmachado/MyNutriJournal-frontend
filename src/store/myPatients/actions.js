@@ -1,10 +1,11 @@
 import axios from "axios";
 import { selectUser } from "../user/selectors";
+import { apiUrl } from "../../config/constants";
 
 // import myAxios from "../axios";
 // import { fetchReservations } from "../todayReservations/actions";
 
-const apiUrl = process.env.API_URL || "//localhost:4000";
+// const apiUrl = process.env.API_URL || "//localhost:4000";
 export const SET_MESSAGE = "SET_MESSAGE";
 
 export function myPatientsList(data) {
