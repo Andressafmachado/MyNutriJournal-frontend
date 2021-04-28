@@ -268,7 +268,7 @@ export default function DailyProgressPage() {
         <div
           style={{
             margin: "2% ",
-            backgroundColor: "#d1e3da",
+            backgroundColor: "#f3f8f5",
             borderRadius: 5,
             width: "10%",
           }}
@@ -332,100 +332,128 @@ export default function DailyProgressPage() {
               </h5>
             )}
 
-            <div class="p-2 flex-fill bd-highlight">
-              <div style={{}} class="p-2 flex-fill bd-highlight">
-                {/* <h4>let's add some food here</h4> */}
+            <div class="p-2 flex bd-highlight">
+              <input
+                value={searchText}
+                onChange={(e) => set_searchText(e.target.value)}
+                placeholder="type to search"
+              />
+              <button
+                onClick={search}
+                type="button"
+                class="btn btn-light btn-sm"
+                style={{ backgroundColor: "#cfe0d8" }}
+              >
+                search
+              </button>
+              <p style={{ fontSize: 10 }}>100 ml/100 gram</p>
+              {searchState.status === "idle" && <div></div>}
+              {searchState.status === "loading" && <div>Loading...</div>}
 
-                <input
-                  value={searchText}
-                  onChange={(e) => set_searchText(e.target.value)}
-                  placeholder="type to search"
-                  style={{}}
-                />
-                <button
-                  onClick={search}
-                  type="button"
-                  class="btn btn-light btn-sm"
-                  style={{ backgroundColor: "#cfe0d8" }}
-                >
-                  search
-                </button>
-                <p style={{ fontSize: 10 }}>100 ml/100 gram</p>
-                {searchState.status === "idle" && <div></div>}
-                {searchState.status === "loading" && <div>Loading...</div>}
-
-                <div>
-                  {!item[0] ? null : (
-                    <div>
-                      <img src={item[0].food.image} style={{ width: 150 }} />
-                      <br />
-                      {item[0].food.label}, kcal:
-                      {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
-                      <br />
-                      <button
-                        type="button"
-                        class="btn btn-light btn-sm"
-                        style={{ backgroundColor: "#cfe0d8" }}
-                        type="submit"
-                        onClick={submitForm}
-                      >
-                        add
-                      </button>
-                    </div>
-                  )}
-                </div>
+              <div>
+                {!item[0] ? null : (
+                  <div>
+                    <img src={item[0].food.image} style={{ width: 150 }} />
+                    <br />
+                    {item[0].food.label}, kcal:
+                    {JSON.stringify(item[0].food.nutrients.ENERC_KCAL)}
+                    <br />
+                    <button
+                      type="button"
+                      class="btn btn-light btn-sm"
+                      style={{ backgroundColor: "#cfe0d8" }}
+                      type="submit"
+                      onClick={submitForm}
+                    >
+                      add
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
 
-        <div style={{ margin: "2% " }} class="p-2 flex-fill bd-highlight">
-          <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>tasks</h1>
-          <h4>Your tasks for today:</h4>
-          {allTasks < 1 ? <p>You don't have tasks for today!</p> : null}
-          {!allTasks ? (
-            <p>You don't have tasks for today!</p>
-          ) : (
-            allTasks.map((task) => {
-              return (
-                <div>
-                  <div
-                    value={name}
-                    style={{
-                      backgroundColor: isCompleted(task.name)
-                        ? "#8cbaa3"
-                        : "#f58e56",
-                      width: 300,
-                      padding: 10,
-                      border: "solid gray 1px",
-                    }}
-                    key={task.id}
-                  >
-                    {task.name}{" "}
-                    {isCompleted(task.name) ? null : (
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          dispatch(addCompletedTask(task.name, userId));
-                        }}
-                        type="button"
-                        class="btn btn-light btn-sm"
-                        style={{ backgroundColor: "#feb594" }}
-                        type="submit"
-                        value={name}
-                      >
-                        Done?
-                      </button>
-                    )}
-                  </div>{" "}
-                </div>
-              );
-            })
-          )}
+        <div
+          style={{
+            margin: "2% ",
+            backgroundColor: "#f3f8f5",
+            borderRadius: 5,
+            width: "10%",
+          }}
+          class="p-2 flex-fill bd-highlight"
+        >
+          <h1
+            className="titleDP"
+            style={{
+              fontFamily: "Limelight",
+              paddingTop: 22,
+              backgroundColor: "#d1e3da",
+              borderRadius: 5,
+              paddingLeft: 15,
+            }}
+          >
+            tasks
+          </h1>
+          <div
+            style={{
+              backgroundColor: "#f3f8f5",
+              paddingLeft: 15,
+              borderRadius: 5,
+              paddingTop: 10,
+            }}
+          >
+            {allTasks < 1 ? <p>You don't have tasks for today!</p> : null}
+            {!allTasks ? (
+              <p>You don't have tasks for today!</p>
+            ) : (
+              allTasks.map((task) => {
+                return (
+                  <div>
+                    <div
+                      value={name}
+                      style={{
+                        backgroundColor: isCompleted(task.name)
+                          ? "#8cbaa3"
+                          : "#f58e56",
+                        width: 300,
+                        padding: 10,
+                        border: "solid white 1px",
+                        borderRadius: 5,
+                        margin: 2,
+                      }}
+                      key={task.id}
+                    >
+                      {task.name}{" "}
+                      {isCompleted(task.name) ? null : (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            dispatch(addCompletedTask(task.name, userId));
+                          }}
+                          type="button"
+                          class="btn btn-light btn-sm"
+                          style={{
+                            backgroundColor: "#feb594",
+                            float: "right",
+                          }}
+                          type="submit"
+                          value={name}
+                        >
+                          Done?
+                        </button>
+                      )}
+                    </div>{" "}
+                  </div>
+                );
+              })
+            )}
+            <br />
+          </div>
         </div>
       </div>
 
-      <div class="d-flex bd-highlight">
+      <div class="d-flex align-items-center">
         <div class="p-2 flex bd-highlight">
           {!user.doctorId > 0 ? null : (
             <div style={{ margin: "50px" }}>
@@ -439,22 +467,40 @@ export default function DailyProgressPage() {
             </div>
           )}
         </div>
-        <div class="p-2 flex bd-highlight">
+        <div class="d-flex align-items-center">
           {!user.doctorId > 0 ? null : (
-            <div style={{ margin: "33px" }}>
-              <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
-                Your Nutritionist
-              </h4>
+            <div style={{ margin: "auto", alignItems: "center" }}>
+              <h4 className="titleDP">Your Nutritionist</h4>
               <br />
-              name:{myDoctor.name}
+              name: {myDoctor.name}
               <br />
               email: {myDoctor.email}
             </div>
           )}
         </div>
-        <div style={{ margin: "33px" }} class="p-2 flex-fill bd-highlight">
-          <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>thoughts?</h4>
-          <p> what is your mood today?</p>
+        <div
+          style={{
+            backgroundColor: "#f3f8f5",
+            width: "30%",
+            margin: "auto",
+            borderRadius: 5,
+          }}
+          class="p-2 flex bd-highlight"
+        >
+          <h4
+            className="titleDP"
+            style={{
+              backgroundColor: "#d1e3da",
+              padding: 10,
+              borderRadius: 5,
+            }}
+          >
+            thoughts?
+          </h4>
+          <p style={{ fontSize: 15, paddingLeft: 15 }}>
+            {" "}
+            what is your mood today?
+          </p>
           {!todayComments ? (
             <div>loading ... </div>
           ) : (
@@ -462,26 +508,27 @@ export default function DailyProgressPage() {
               return (
                 <div
                   style={{
-                    // backgroundColor: "gray",
-                    margin: "5px",
+                    backgroundColor: "#d1e3da",
+                    borderRadius: 5,
+                    margin: 10,
                     padding: "5px",
-                    width: "50%",
                   }}
                 >
-                  <div> {comment.name} said:</div>
+                  <div style={{ fontSize: 20 }}>
+                    <strong> {comment.name} </strong> said:
+                  </div>
 
-                  <div style={{ fontSize: 22 }}>{comment.content}</div>
+                  <div style={{ fontSize: 15 }}>{comment.content}</div>
                 </div>
               );
             })
           )}
-
-          <textarea
-            style={{ border: "solid 1px", width: 150 }}
+          <input
+            style={{ border: "solid gray 1px", borderRadius: 5 }}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-          />
-          <br />
+            placeholder="your comments here"
+          />{" "}
           <button
             type="button"
             class="btn btn-light btn-sm"
@@ -498,10 +545,6 @@ export default function DailyProgressPage() {
         <footer class="bg-light text-center text-lg-start">
           <div class="text-center p-3" style={{ backgroundColor: "#c5dbd3" }}>
             © 2021 Copyright: AndressaMachado
-            {/* <a class="text-dark" href="https://mdbootstrap.com/"
-            >
-              AndressaMachado
-            </a> */}
           </div>
         </footer>
       </div>
