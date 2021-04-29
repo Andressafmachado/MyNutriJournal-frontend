@@ -453,7 +453,7 @@ export default function DailyProgressPage() {
         </div>
       </div>
 
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" style={{ paddingBottom: 10 }}>
         <div class="p-2 flex bd-highlight">
           {!user.doctorId > 0 ? null : (
             <div style={{ margin: "50px" }}>
@@ -472,7 +472,7 @@ export default function DailyProgressPage() {
             <div style={{ margin: "auto", alignItems: "center" }}>
               <h4 className="titleDP">Your Nutritionist</h4>
               <br />
-              name: {myDoctor.name}
+              {myDoctor.name}
               <br />
               email: {myDoctor.email}
             </div>
@@ -481,7 +481,7 @@ export default function DailyProgressPage() {
         <div
           style={{
             backgroundColor: "#f3f8f5",
-            width: "30%",
+            width: "40%",
             margin: "auto",
             borderRadius: 5,
           }}
@@ -491,7 +491,7 @@ export default function DailyProgressPage() {
             className="titleDP"
             style={{
               backgroundColor: "#d1e3da",
-              padding: 10,
+              padding: 20,
               borderRadius: 5,
             }}
           >
@@ -508,7 +508,7 @@ export default function DailyProgressPage() {
               return (
                 <div
                   style={{
-                    backgroundColor: "#d1e3da",
+                    border: "solid 2px #d1e3da",
                     borderRadius: 5,
                     margin: 10,
                     padding: "5px",
@@ -523,21 +523,27 @@ export default function DailyProgressPage() {
               );
             })
           )}
-          <input
-            style={{ border: "solid gray 1px", borderRadius: 5 }}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="your comments here"
-          />{" "}
-          <button
-            type="button"
-            class="btn btn-light btn-sm"
-            style={{ backgroundColor: "#cfe0d8" }}
-            type="submit"
-            onClick={submitFormComment}
-          >
-            add
-          </button>
+          <div style={{ margin: 25 }}>
+            <input
+              style={{
+                border: "solid gray 1px",
+                borderRadius: 5,
+                width: "50%",
+              }}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="your comments here"
+            />{" "}
+            <button
+              type="button"
+              class="btn btn-light btn-sm"
+              style={{ backgroundColor: "#cfe0d8" }}
+              type="submit"
+              onClick={submitFormComment}
+            >
+              add
+            </button>
+          </div>
         </div>
       </div>
 
