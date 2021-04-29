@@ -194,16 +194,14 @@ export default function PlanPage() {
           {" "}
           <img
             src={specificUser.image}
-            wight="50%"
-            height="auto"
             class="rounded-circle"
             alt="patientImage"
             width="auto"
             height="300"
           />
         </div>
-        <div class="p-2 flex-fill bd-highlight">
-          <h2 style={{ paddingTop: 22 }}>Personal data</h2>
+        <div class="p-2 flex bd-highlight" style={{ width: "40%" }}>
+          <h2 style={{ paddingTop: 70 }}>Personal data</h2>
           <br />
           <h5>name: {specificUser.name}</h5>
           <h5>email: {specificUser.email}</h5>
@@ -215,7 +213,7 @@ export default function PlanPage() {
           <br />
           <br />
         </div>
-        <div style={{ border: "" }} class="p-2 flex-fill bd-highlight">
+        <div class="p-2 flex-fill bd-highlight">
           {user.isDoctor ? (
             <div>
               <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
@@ -225,7 +223,7 @@ export default function PlanPage() {
             </div>
           ) : (
             <div>
-              <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
+              <h1 style={{ fontFamily: "Limelight", paddingTop: 70 }}>
                 You got this
               </h1>
               <br />
@@ -239,12 +237,23 @@ export default function PlanPage() {
         </div>
       </div>
       <div class="d-flex bd-highlight">
-        <div style={{ border: "" }} class="p-2 flex-fill bd-highlight"></div>
+        <div class="p-2 flex-fill bd-highlight"></div>
         <div
-          style={{ border: "", textAlign: "center" }}
+          style={{
+            textAlign: "center",
+            backgroundColor: "#cfe0d8",
+            borderRadius: 5,
+          }}
           class="p-2 flex-fill bd-highlight"
         >
-          <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
+          <h1
+            style={{
+              fontFamily: "Limelight",
+              paddingTop: 22,
+              backgroundColor: "#8cbaa3",
+              borderRadius: 5,
+            }}
+          >
             FACING THE FACTS
           </h1>
           {user.isDoctor ? (
@@ -268,7 +277,14 @@ export default function PlanPage() {
             </p>
           )}
           <br /> <br />
-          <h2 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
+          <h2
+            style={{
+              fontFamily: "Limelight",
+              paddingTop: 22,
+              backgroundColor: "#8cbaa3",
+              borderRadius: 5,
+            }}
+          >
             DIET PLAN
           </h2>{" "}
           {user.isDoctor ? (
@@ -300,9 +316,9 @@ export default function PlanPage() {
       </div>
 
       <div class="d-flex bd-highlight">
-        <div style={{ border: "" }} class="p-2 flex-fill bd-highlight">
-          <h3 style={{ paddingTop: 22 }}>Here we track all activities </h3>
-          Choose a day to see the historic: <br />{" "}
+        <div class="p-2 flex-fill bd-highlight">
+          <h3 style={{ paddingTop: 22 }}>historic </h3>
+          Choose a day to see the historic:{" "}
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
@@ -319,6 +335,8 @@ export default function PlanPage() {
               fontFamily: "Limelight",
               paddingTop: 22,
               backgroundColor: "#cfe0d8",
+              borderRadius: 5,
+              paddingLeft: 5,
             }}
           >
             Tasks
@@ -338,7 +356,9 @@ export default function PlanPage() {
                         : "#f58e56",
                       width: 300,
                       padding: 10,
-                      border: "solid gray 1px",
+                      border: "solid white 1px",
+                      borderRadius: 5,
+                      margin: 2,
                     }}
                     key={task.id}
                   >
@@ -375,26 +395,11 @@ export default function PlanPage() {
             })
           )}
           <br />
-          <br />
-          <br />
-          <h5 style={{ fontFamily: "Limelight" }}>Manage tasks</h5>
-          {allTasks < 1 ? <p>no tasks here yet, lets add something!</p> : null}
-          {!allTasks ? (
-            <p>no tasks here yet, lets add something!</p>
-          ) : (
-            allTasks.map((task) => {
-              return <div>{task.name}</div>;
-            })
-          )}
-
-          <br />
-
           <input
-            style={{ border: "solid 1px", width: 150 }}
+            style={{ border: "solid 1px", width: "55%", borderRadius: 5 }}
             value={name}
             onChange={(e) => setName(e.target.value)}
-          />
-          <br />
+          />{" "}
           <button
             type="button"
             class="btn btn-light btn-sm"
@@ -405,12 +410,14 @@ export default function PlanPage() {
             add
           </button>
         </div>
-        <div style={{ border: "" }} class="p-2 flex-fill bd-highlight">
+        <div class="p-2 flex-fill bd-highlight">
           <h5
             style={{
               fontFamily: "Limelight",
               paddingTop: 22,
               backgroundColor: "#cfe0d8",
+              borderRadius: 5,
+              paddingLeft: 5,
             }}
           >
             Food
@@ -420,17 +427,7 @@ export default function PlanPage() {
           ) : (
             allFood.map((food) => {
               return (
-                <div
-                  style={{
-                    // backgroundColor: isCompleted(task.name)
-                    //   ? "green  "
-                    //   : "yellow",
-                    width: 300,
-                    padding: 10,
-                    border: "solid gray 1px",
-                  }}
-                  key={food.id}
-                >
+                <div key={food.id} style={{ marginLeft: 5 }}>
                   {food.item}, {food.calories} kcal
                 </div>
               );
@@ -442,10 +439,10 @@ export default function PlanPage() {
             <h5
               style={{
                 backgroundColor: "#8cbaa3",
-                padding: 5,
-                width: 300,
+                marginTop: 10,
                 padding: 10,
-                border: "solid gray 1px",
+                border: "solid white 1px",
+                borderRadius: 5,
               }}
             >
               {" "}
@@ -455,10 +452,10 @@ export default function PlanPage() {
             <h5
               style={{
                 backgroundColor: "#f58e56",
-                padding: 5,
-                width: 300,
+                marginTop: 10,
                 padding: 10,
-                border: "solid gray 1px",
+                border: "solid white 1px",
+                borderRadius: 5,
               }}
             >
               {" "}
@@ -466,12 +463,14 @@ export default function PlanPage() {
             </h5>
           )}
         </div>
-        <div style={{ border: "" }} class="p-2 flex-fill bd-highlight">
+        <div class="p-2 flex-fill bd-highlight">
           <h5
             style={{
               fontFamily: "Limelight",
               paddingTop: 22,
               backgroundColor: "#cfe0d8",
+              borderRadius: 5,
+              paddingLeft: 5,
             }}
           >
             {" "}
@@ -485,11 +484,16 @@ export default function PlanPage() {
           ) : (
             allComments.map((comment) => {
               return (
-                <div>
+                <div
+                  style={{
+                    border: "solid 2px #cfe0d8",
+                    margin: 10,
+                    padding: 10,
+                    borderRadius: 5,
+                  }}
+                >
                   {comment.name} said
-                  <div style={{ fontSize: 22 }}>{comment.content}</div>
-                  <br />
-                  <br />
+                  <div>{comment.content}</div>
                 </div>
               );
             })
@@ -497,65 +501,14 @@ export default function PlanPage() {
         </div>
       </div>
 
-      <div class="d-flex bd-highlight">
-        <div
-          style={{
-            marginTop: "33px",
-          }}
-          class="p-2 flex-center bd-highlight"
-        >
-          <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>thoughts?</h4>
-          {user.isDoctor ? (
-            <p>
-              let's add something here to keep {specificUser.name} motivated...
-            </p>
-          ) : (
-            <p>let's add something here to keep you motivated...</p>
-          )}
-          {!todayComments ? (
-            <div>loading ... </div>
-          ) : (
-            todayComments.map((comment) => {
-              return (
-                <div
-                  style={{
-                    // backgroundColor: "gray",
-                    margin: "5px",
-                    padding: "5px",
-                    width: "50%",
-                  }}
-                >
-                  <div> {comment.name} said:</div>
-
-                  <div style={{ fontSize: 22 }}>{comment.content}</div>
-                </div>
-              );
-            })
-          )}
-
-          <textarea
-            style={{ border: "solid 1px", width: 150 }}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <br />
-          <button
-            type="button"
-            class="btn btn-light btn-sm"
-            style={{ backgroundColor: "#cfe0d8" }}
-            type="submit"
-            onClick={submitFormComment}
-          >
-            add
-          </button>
-        </div>
+      <div class="d-flex align-items-center">
         <div class="p-2 flex bd-highlight">
           {!user.doctorId > 0 ? null : (
             <div style={{ margin: "50px" }}>
               <img
                 src={myDoctor.image}
                 class="rounded-circle"
-                alt="patientImage"
+                alt="doctorImage"
                 width="auto"
                 height="150"
               />
@@ -564,7 +517,7 @@ export default function PlanPage() {
         </div>
         <div class="p-2 flex bd-highlight">
           {!user.doctorId > 0 ? null : (
-            <div style={{ margin: "33px" }}>
+            <div style={{ margin: "auto", alignItems: "center" }}>
               <h4 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
                 Your Nutritionist
               </h4>
@@ -575,6 +528,70 @@ export default function PlanPage() {
             </div>
           )}
         </div>
+
+        {user.isDoctor ? (
+          <div
+            style={{
+              marginTop: "33px",
+            }}
+            class="p-2 flex-center bd-highlight"
+          >
+            <h4
+              style={{
+                fontFamily: "Limelight",
+                backgroundColor: "#d1e3da",
+                padding: 20,
+                borderRadius: 5,
+              }}
+            >
+              thoughts?
+            </h4>
+            <p>
+              let's add something here to keep {specificUser.name} motivated...
+            </p>
+            {!todayComments ? (
+              <div>loading ... </div>
+            ) : (
+              todayComments.map((comment) => {
+                return (
+                  <div
+                    style={{
+                      border: "solid 2px #d1e3da",
+                      borderRadius: 5,
+                      margin: 10,
+                      padding: "5px",
+                    }}
+                  >
+                    <div style={{ fontSize: 20 }}>
+                      <strong> {comment.name} </strong> said:
+                    </div>
+
+                    <div style={{ fontSize: 15 }}>{comment.content}</div>
+                  </div>
+                );
+              })
+            )}
+            <input
+              style={{
+                border: "solid gray 1px",
+                borderRadius: 5,
+                width: "50%",
+              }}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="your comments here"
+            />{" "}
+            <button
+              type="button"
+              class="btn btn-light btn-sm"
+              style={{ backgroundColor: "#cfe0d8" }}
+              type="submit"
+              onClick={submitFormComment}
+            >
+              add
+            </button>
+          </div>
+        ) : null}
       </div>
       <div>
         <footer class="bg-light text-center text-lg-start">
