@@ -69,24 +69,44 @@ export default function MyPatients() {
           <br />
         </div>
       </div>
-
+      {/* SEARCH */}
       <div class="d-flex bd-highlight">
         <div class="p-2 flex-fill bd-highlight"></div>
-        <div class="p-2 flex-fill bd-highlight">
+        <div
+          style={{
+            alignItems: "center",
+            backgroundColor: "#8cbaa3",
+            borderRadius: 5,
+            width: "24%",
+            margin: 10,
+          }}
+          class="p-2 flex-fill bd-highlight"
+        >
           <div style={{ marginLeft: "35px" }}>search for patient:</div>
           <input
             style={{ marginLeft: "35px" }}
             value={searchText}
             onChange={(e) => set_searchText(e.target.value)}
-          />
-          <button type="submit">Search</button>
+          />{" "}
+          <button
+            type="submit"
+            class="btn btn-light btn-sm"
+            style={{ backgroundColor: "#cfe0d8" }}
+          >
+            Search
+          </button>
         </div>
         <div class="p-2 flex-fill bd-highlight"></div>
       </div>
+      {/* PATIENTS */}
       <div class="d-flex bd-highlight">
         <div class="p-2 flex-fill bd-highlight"></div>
         <div
-          style={{ alignItems: "center" }}
+          style={{
+            alignItems: "center",
+            backgroundColor: "#c5dbd3",
+            borderRadius: 5,
+          }}
           class="p-2 flex-fill bd-highlight"
         >
           {found.length < 1 ? (
