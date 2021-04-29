@@ -8,8 +8,10 @@ export default function HomePage() {
     <div className="homepage">
       <div className="flex-container">
         <div className="item1">
-          <p>Welcome to </p>
-          <p>my nutri journal</p>
+          <p>
+            Welcome to <br />
+            My Nutri Journal
+          </p>
         </div>
         <div className="item2">
           <p>Our mission is to make your live easier, </p>
