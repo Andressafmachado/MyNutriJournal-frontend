@@ -8,12 +8,13 @@ export default function PatientCart(patient) {
         border: "solid  #8cbaa3 2px",
         borderRadius: 5,
         padding: 10,
-        margin: 5,
+        marginBottom: 10,
         color: "black",
+        backgroundColor: "white",
       }}
     >
       {" "}
-      <h3>
+      <h5>
         {" "}
         <img
           src={patient.patient.image}
@@ -23,7 +24,7 @@ export default function PatientCart(patient) {
           height="100"
         />{" "}
         {patient.patient.name}
-      </h3>
+      </h5>
     </div>
   );
 }
