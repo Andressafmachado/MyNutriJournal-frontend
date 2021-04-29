@@ -33,7 +33,7 @@ export const addTask = (name, userId) => {
         userId,
       });
 
-      dispatch(showMessageWithTimeout("success", true, "new food added"));
+      dispatch(showMessageWithTimeout("success", true, "new task added"));
       dispatch(fetchTasks(userId));
     } catch (error) {
       if (error.response) {

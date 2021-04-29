@@ -216,7 +216,7 @@ export default function PlanPage() {
         <div class="p-2 flex-fill bd-highlight">
           {user.isDoctor ? (
             <div>
-              <h1 style={{ fontFamily: "Limelight", paddingTop: 22 }}>
+              <h1 style={{ fontFamily: "Limelight", paddingTop: 70 }}>
                 Progress {Math.floor(progressInPercent)}%
               </h1>
               days in a diet: {progressInDays}/ {dietInDaysString}
@@ -258,8 +258,13 @@ export default function PlanPage() {
           </h1>
           {user.isDoctor ? (
             <p style={{ fontSize: 22 }}>
-              {specificUser.name}'s BMI is {Math.round(BMI)}, {genderString} is{" "}
-              {BMI < 18.5 ? "underweight" : "overweight"}.
+              {specificUser.name}'s BMI is {Math.round(BMI)},
+              {BMI < 18.5
+                ? `${genderString} is underweight`
+                : BMI > 25
+                ? `${genderString} is overweight`
+                : " it falls within the normal"}
+              .
               <br />
               {specificUser.name} ideal weight is {Math.round(idealWeight)} kg.{" "}
               <br />
@@ -474,7 +479,7 @@ export default function PlanPage() {
             }}
           >
             {" "}
-            comments for this day
+            Comments for this day
           </h5>{" "}
           {allComments.length > 0 ? null : (
             <div>There is no comments for this day!</div>
@@ -501,7 +506,10 @@ export default function PlanPage() {
         </div>
       </div>
 
-      <div class="d-flex align-items-center">
+      <div
+        class="d-flex align-items-center"
+        style={{ marginTop: 50, marginBottom: 50 }}
+      >
         <div class="p-2 flex bd-highlight">
           {!user.doctorId > 0 ? null : (
             <div style={{ margin: "50px" }}>
@@ -533,8 +541,11 @@ export default function PlanPage() {
           <div
             style={{
               marginTop: "33px",
+              width: "50%",
+              margin: "auto",
+              alignItems: "center",
             }}
-            class="p-2 flex-center bd-highlight"
+            class="p-2 flex bd-highlight"
           >
             <h4
               style={{
@@ -544,9 +555,9 @@ export default function PlanPage() {
                 borderRadius: 5,
               }}
             >
-              thoughts?
+              Comments
             </h4>
-            <p>
+            <p style={{ paddingLeft: 20 }}>
               let's add something here to keep {specificUser.name} motivated...
             </p>
             {!todayComments ? (
@@ -573,6 +584,7 @@ export default function PlanPage() {
             )}
             <input
               style={{
+                marginLeft: 20,
                 border: "solid gray 1px",
                 borderRadius: 5,
                 width: "50%",
