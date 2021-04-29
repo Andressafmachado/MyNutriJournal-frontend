@@ -5,7 +5,8 @@ export default function PatientCart(patient) {
   return (
     <div
       style={{
-        border: "solid  #8cbaa3 1px",
+        border: "solid  #8cbaa3 2px",
+        borderRadius: 5,
         padding: 10,
         margin: 5,
         color: "black",
