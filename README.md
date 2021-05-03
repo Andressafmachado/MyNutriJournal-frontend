@@ -7,7 +7,7 @@ Are you a Nutritionist?
 You are welcome as well, with My Nutri Journal is going to be easier to track your patients and their activities, 
 We keep a historic for all of them!
 
-Check online version https://mynutrijournal.netlify.app/
+Check the online version https://mynutrijournal.netlify.app/
 
 ## Demo
 
