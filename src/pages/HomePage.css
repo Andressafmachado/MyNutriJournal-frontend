@@ -1,15 +1,5 @@
-/* <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet"> */
-
-/* @import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"); */
-
-/* font-family: 'Amatic SC', cursive;
-font-family: 'Josefin Sans', sans-serif;
-font-family: 'Limelight', cursive; */
-
 @import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Josefin+Sans&family=Limelight&display=swap");
 .homepage {
-  background-color: rgb(133, 133, 133);
   background: url("https://res.cloudinary.com/andmachado/image/upload/v1618420204/brooke-lark-08bOYnH_r_E-unsplash_a8hfuh.jpg")
     no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -24,10 +14,9 @@ font-family: 'Limelight', cursive; */
   justify-content: center;
 }
 
-.item1 {
+.titleHomePage {
   padding-top: 100px;
   padding-bottom: 50px;
-
   font-size: 55px;
   width: 60%;
   height: auto;
@@ -37,7 +26,7 @@ font-family: 'Limelight', cursive; */
   font-family: "Limelight", cursive;
 }
 
-.item2 {
+.textHomePage {
   font-family: "Josefin Sans", sans-serif;
   font-size: 22px;
   width: 60%;
@@ -45,14 +34,9 @@ font-family: 'Limelight', cursive; */
   justify-content: flex-end;
   align-self: flex-end;
   text-align: center;
+  padding-bottom: 20%;
 }
 
-.item3 {
-  padding-top: 10%;
-  justify-content: center;
-
-  width: 60%;
-  align-self: flex-end;
-  justify-content: center;
-  text-align: center;
+#link {
+  color: black;
 }
