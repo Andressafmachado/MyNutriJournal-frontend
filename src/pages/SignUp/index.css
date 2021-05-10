@@ -1,0 +1,33 @@
+.signup {
+  padding: 100px;
+  background-color: #91caaea9;
+  font-family: "Josefin Sans", sans-serif;
+  background: url("https://res.cloudinary.com/andmachado/image/upload/v1618420204/brooke-lark-08bOYnH_r_E-unsplash_a8hfuh.jpg")
+    no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+#buttonSignupPage {
+  background-color: #8cbaa3;
+  color: white;
+}
+
+#label {
+  background-color: #8cbaa3;
+  color: white;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+#input[type="file"] {
+  display: none;
+}
+
+#linkSignupPage {
+  color: black;
+}

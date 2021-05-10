@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { signUp } from "../../store/user/actions";
 import { selectUser } from "../../store/user/selectors";
@@ -9,7 +8,7 @@ import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
 import { selectAllDoctors } from "../../store/allDoctors/selectors";
 import { fetchAllDoctors } from "../../store/allDoctors/actions";
-import "../Login/index.css";
+import "./index.css";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -26,7 +25,6 @@ export default function SignUp() {
   const userId = user.id;
   const allDoctors = useSelector(selectAllDoctors);
   const [doctorId, setDoctorId] = useState();
-  console.log("doctorid", typeof doctorId);
 
   useEffect(() => {
     dispatch(fetchAllDoctors());
@@ -34,7 +32,6 @@ export default function SignUp() {
 
   function submitForm(event) {
     event.preventDefault();
-
     dispatch(
       signUp({
         name,
@@ -50,7 +47,6 @@ export default function SignUp() {
         image,
       })
     );
-
     setEmail("");
     setPassword("");
     setName("");
@@ -60,6 +56,7 @@ export default function SignUp() {
     setImage("");
   }
 
+  //upload profile picture
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
 
@@ -78,14 +75,12 @@ export default function SignUp() {
         body: data,
       }
     );
-
     const file = await res.json();
     setImage(file.url);
   };
 
   return (
-    <div className="login">
-      {/* // <Container className="login"> */}
+    <div className="signup">
       <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <div>
           <h1 className="mt-5 mb-5">Signup and create a Plan!</h1>
@@ -113,11 +108,7 @@ export default function SignUp() {
             type="email"
             required
           />
-          {/* <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text> */}
         </Form.Group>
-
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -127,7 +118,6 @@ export default function SignUp() {
             required
           />
         </Form.Group>
-
         <Form.Group controlId="formBasicAge">
           <Form.Label>Age</Form.Label>
           <Form.Control
@@ -186,10 +176,8 @@ export default function SignUp() {
             <option value={"yes"}>yes</option>
           </select>
         </Form.Group>
-
         <Form.Group>
           <Form.Label>Select your Nutritionist here:</Form.Label>
-
           <select
             class="form-control form-control-sm"
             onChange={(e) => {
@@ -208,35 +196,39 @@ export default function SignUp() {
                 })}
           </select>
         </Form.Group>
-        <div className="App">
+        <div>
           <h5>Upload your profile picture</h5>
-          <input
-            type="file"
-            name="file"
-            placeholder="drag it here"
-            onChange={uploadImage}
-          />
+          <label id="label">
+            {" "}
+            Choose file
+            <input
+              id="input"
+              type="file"
+              name="file"
+              placeholder="drag it here"
+              onChange={uploadImage}
+            />
+          </label>
+          <br />
           <img src={image} width="50%" />
         </div>
-
         <Form.Group className="mt-5">
           <Button
             variant="light"
             type="submit"
+            id="buttonSignupPage"
             onClick={submitForm}
-            style={{ backgroundColor: "#8cbaa3", color: "white" }}
           >
             Create My Plan
           </Button>
         </Form.Group>
         <p>
           Already have an account?{" "}
-          <Link style={{ color: "black" }} to="/login">
+          <Link id="linkSignupPage" to="/login">
             Click here to log in
           </Link>
         </p>
       </Form>
-      {/* </Container> */}
     </div>
   );
 }

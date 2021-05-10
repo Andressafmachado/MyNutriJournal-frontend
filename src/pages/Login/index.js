@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { login } from "../../store/user/actions";
 import "./index.css";
@@ -12,21 +11,16 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-
   const history = useHistory();
 
   function submitForm(event) {
-    console.log("hi");
     event.preventDefault();
-
     dispatch(login(email, password, history));
-
     setEmail("");
     setPassword("");
   }
 
   return (
-    // <Container className="login">
     <div className="login">
       <Form as={Col} md={{ span: 6, offset: 5 }} className="mt-5">
         <h3>Login</h3>
@@ -56,7 +50,7 @@ export default function SignUp() {
           <Button
             variant="light"
             type="submit"
-            style={{ backgroundColor: "#8cbaa3", color: "white" }}
+            id="buttonLoginPage"
             onClick={submitForm}
           >
             Login
@@ -66,14 +60,13 @@ export default function SignUp() {
 
         <h6>
           Don't you have an account yet?
-          <Link to="/signup" style={{ textAlign: "center", color: "black" }}>
+          <Link to="/signup" id="linkLoginPage">
             {" "}
             sign up here
           </Link>{" "}
         </h6>
         <br />
       </Form>
-      {/* // </Container> */}
     </div>
   );
 }
