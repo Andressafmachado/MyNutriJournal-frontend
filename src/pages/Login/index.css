@@ -1,6 +1,5 @@
 .login {
   padding: 150px;
-
   background-color: #91caaea9;
   font-family: "Josefin Sans", sans-serif;
   background: url("https://res.cloudinary.com/andmachado/image/upload/v1618420204/brooke-lark-08bOYnH_r_E-unsplash_a8hfuh.jpg")
@@ -9,4 +8,14 @@
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
+}
+
+#buttonLoginPage {
+  background-color: #8cbaa3;
+  color: white;
+}
+
+#linkLoginPage {
+  text-align: center;
+  color: black;
 }
